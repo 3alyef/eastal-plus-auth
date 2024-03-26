@@ -1,9 +1,9 @@
 // const express = require("express");
-import express from "express";
+import express, { Express } from "express";
 import { router } from "./Routes/Routes";
 
 class Server {
-    public server;
+    public server: Express;
 
     constructor(){
         this.server = express();
