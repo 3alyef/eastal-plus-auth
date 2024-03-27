@@ -59,23 +59,16 @@ class Register {
 
     private async createNewAccount(user_name: string, email: string, password: string) {
         try {
-            /*const newUser = new userModel (
+            const newUser = new userModel (
                 {
                     user_name: user_name,
                     email: email,
                     password: password
                 }
-            )*/
+            )
 
-            return (new userModel (
-                {
-                    user_name: user_name,
-                    email: email,
-                    password: password
-                }
-            )).save()
-            //await newUser.save();
-            //return newUser;
+            await newUser.save();
+            return newUser;
 
         } catch (error) {
             throw new Error("Ocorreu um erro ao verificar o email.");
