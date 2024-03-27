@@ -3,7 +3,7 @@ import { register } from "../../../Services/Services";
 
 class RegisterCollection {
     postRegister(req: Request, res: Response){
-        res.send("Você está tentando registrar-se!, bem vamos começar!");
+        // res.send("Você está tentando registrar-se!, bem vamos começar!");
 
         register.start(req, res)
     }

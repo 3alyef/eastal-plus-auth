@@ -7,6 +7,7 @@ class Server {
 
     constructor(){
         this.server = express();
+        this.middleware();
         this.routes();
     }
 
