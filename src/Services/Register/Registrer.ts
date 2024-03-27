@@ -2,62 +2,79 @@ import { Request, Response } from "express";
 import { userModel } from "../../DataBase/Models/Models";
 class Register {
 
-    public async start(req: Request, res: Response) {
-        
-        const user_name: string = req.body.user_name;
-        const email: string = req.body.email;
-        const password: string = req.body.password;
-        const repeatPassword: string = req.body.repeatPassword;
-
-        if(repeatPassword !== null && password !== repeatPassword){
-            return res.status(400).json({message: "As senhas não correspondem."});
-        }
+    public async initialize(req: Request, res: Response) {
+        const { user_name, email, password, repeatPassword } = req.body;
+  
         try {
-            const newUser = await this.verifyUEP(user_name, email, password);
+            const _isPasswordOk= this.verifyPassword(password, repeatPassword);
+            if(_isPasswordOk){
+                const _alreadyHaveEmail = await this.verifyEmail(email);
+                if(!_alreadyHaveEmail) {
+                    const newUser = await this.createNewAccount(user_name, email, password);
+                    
+                    return res.status(200).json({ message: "Registro bem-sucedido.", newUser });
 
-            if (newUser) {
-                return res.status(200).json({ message: "Registro bem-sucedido.", newUser });
+                } else {
+                    res.status(400).json({ message: "Email já cadastrado." });
+
+                }
+                
             } else {
-                return res.status(400).json({ message: "Usuário já existe." });
+                res.status(400).json({ message: "As senhas não correspondem." });
+
             }
-
+            
         } catch (error) {
-
             console.error(error);
-            return res.status(500).json({ message: "Ocorreu um erro durante o registro." });
-
+            return res.status(500).json({ message: "Ocorreu um erro durante o registro.", error: error });
         }
+       
     }
 
-    private async verifyUEP(user_name: string, email: string, password: string) {
-
-        const test = await userModel.exists(
-            {
-               "email": email
+    private verifyPassword(password: string, repeatPassword: string){
+        try {
+            if(repeatPassword !== null && password !== repeatPassword){
+                return false;
             }
-        )
-
-        if(test === null ){
-           return this.createNewAccount(user_name, email, password);
-        } else {
-            return false
+            return true;
+        } catch(error) {
+            throw new Error("Ocorreu um erro ao verificar a correspondência das senhas.");
         }
+        
+    }
+
+    private async verifyEmail(email: string) {
+
+        try {
+            // Verifica se já há um usuário cadastrado com o mesmo email
+            const userExists = await userModel.exists({ email: email });
+            return userExists ? true : false; // Retorna quando não há outro usuário
+            
+        } catch (error) {
+            console.error(error);
+            throw new Error("Ocorreu um erro ao verificar o email.");
+        }
+        
     }
 
     private async createNewAccount(user_name: string, email: string, password: string) {
-        const newUser = new userModel (
-            {
-                user_name: user_name,
-                email: email,
-                password: password
-            }
-        )
-        await newUser.save();
-        return newUser;
+        try {
+            const newUser = new userModel (
+                {
+                    user_name: user_name,
+                    email: email,
+                    password: password
+                }
+            )
+
+            await newUser.save();
+            return newUser;
+
+        } catch (error) {
+            throw new Error("Ocorreu um erro ao verificar o email.");
+
+        }
     }
 }
 
-
-const register: Register = new Register()
-
-export { register };
+export { Register };

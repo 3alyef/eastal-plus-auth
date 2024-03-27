@@ -1,11 +1,10 @@
 import { Request, Response } from "express";
-import { register } from "../../../Services/Services";
+import { Register } from "../../../Services/Services";
 
 class RegisterCollection {
     postRegister(req: Request, res: Response){
         // res.send("Você está tentando registrar-se!, bem vamos começar!");
-
-        register.start(req, res)
+        new Register().initialize(req, res);
     }
 }
 
