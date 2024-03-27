@@ -4,7 +4,7 @@ class Register {
 
     public async initialize(req: Request, res: Response) {
         const { user_name, email, password, repeatPassword } = req.body;
-  
+        
         try {
             const _isPasswordOk= this.verifyPassword(password, repeatPassword);
             if(_isPasswordOk){
@@ -48,7 +48,7 @@ class Register {
         try {
             // Verifica se já há um usuário cadastrado com o mesmo email
             const userExists = await userModel.exists({ email: email });
-            return userExists ? true : false; // Retorna quando não há outro usuário
+            return userExists ? true : false; // Retorna quando não há outro usuário (se não houver outro usuario retorna null === false, se houver retorna true)
             
         } catch (error) {
             console.error(error);
@@ -59,16 +59,23 @@ class Register {
 
     private async createNewAccount(user_name: string, email: string, password: string) {
         try {
-            const newUser = new userModel (
+            /*const newUser = new userModel (
                 {
                     user_name: user_name,
                     email: email,
                     password: password
                 }
-            )
+            )*/
 
-            await newUser.save();
-            return newUser;
+            return (new userModel (
+                {
+                    user_name: user_name,
+                    email: email,
+                    password: password
+                }
+            )).save()
+            //await newUser.save();
+            //return newUser;
 
         } catch (error) {
             throw new Error("Ocorreu um erro ao verificar o email.");

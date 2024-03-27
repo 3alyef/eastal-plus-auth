@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { Document, Model } from "mongoose";
 async function authenticate() {
     const DB_URL: string = process.env.DATABASE_URL || "need URL";
     try {
@@ -11,4 +11,4 @@ async function authenticate() {
 }
 
 
-export { authenticate, mongoose };
+export { authenticate, mongoose, Document, Model };
