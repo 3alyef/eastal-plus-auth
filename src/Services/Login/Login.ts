@@ -15,7 +15,7 @@ class Login {
             if(user){
                 const key = process.env.KEY || "test"; // Chave de 256 bits (32 bytes)
                 const iv = Buffer.alloc(16);
-                const idC = this.encryptMessage((user._id).toString, key, iv);
+                const idC = this.encryptMessage((user._id).toString(), key, iv);
                 const soulNameC = this.encryptMessage(user.soulName, key, iv);
                 const emailC = this.encryptMessage(email, key, iv);
                 console.log(user._id, user.soulName, email);
@@ -79,7 +79,8 @@ class Login {
     
     private async connectM2(idC: string, soulNameC: string, emailC: string) {
         const URL = `${process.env.M2ADRESS}/connect`;
-        const body = JSON.stringify({ idC, soulNameC, emailC });
+        const me = "שלוםسلام"
+        const body = JSON.stringify({ idC, soulNameC, emailC, me });
 
         try {
             const response = await fetch(URL, {
