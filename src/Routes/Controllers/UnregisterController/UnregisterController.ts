@@ -1,12 +1,12 @@
 import { Request, Response } from "express";
 
-class UnregisterCollection {
+class UnregisterController {
     postUnregister(req: Request, res: Response){
         res.send("Você está tentando apagar sua conta!")
     }
 }
 
 
-const unregisterCollection = new UnregisterCollection();
+const unregisterController = new UnregisterController();
 
-export { unregisterCollection };
+export { unregisterController };

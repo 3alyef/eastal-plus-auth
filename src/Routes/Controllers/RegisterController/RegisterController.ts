@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { Register } from "../../../Services/Services";
 
-class RegisterCollection {
+class RegisterController {
     postRegister(req: Request, res: Response){
         // res.send("Você está tentando registrar-se!, bem vamos começar!");
         new Register().initialize(req, res);
@@ -9,6 +9,6 @@ class RegisterCollection {
 }
 
 
-const registerCollection = new RegisterCollection();
+const registerController = new RegisterController();
 
-export { registerCollection };
+export { registerController };

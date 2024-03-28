@@ -1,5 +1,5 @@
-import { loginCollection } from "./LoginCollection/LoginCollection";
-import { registerCollection } from "./RegisterCollection/RegisterCollection";
-import { unregisterCollection } from "./UnregisterCollection/UnregisterCollection";
+import { loginController } from "./LoginController/LoginController";
+import { registerController } from "./RegisterController/RegisterController";
+import { unregisterController } from "./UnregisterController/UnregisterController.js";
 
-export { loginCollection, registerCollection, unregisterCollection }
+export { loginController, registerController, unregisterController }
