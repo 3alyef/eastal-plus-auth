@@ -11,7 +11,15 @@ class Login {
 
             const user: User | null = await this.findUser( email, password );
             if(user){
-                res.status(200).json({message: "Login realizado com sucesso!", user})
+                
+                let token: string  = await this.getToken();
+                if(token){
+                    res.status(200).json({message: "Login realizado com sucesso!", user})
+                } else {
+
+                console.error('Erro ao gerar token:');
+                    throw new Error("Erro ao gerar token.")
+                }  
 
             } else {
                 res.status(401).json({ message: "Email ou senha não conferem!" });
@@ -43,6 +51,12 @@ class Login {
             console.error('Erro ao encontrar usuário:', error);
             throw new Error('Ocorreu um erro ao encontrar o usuário.');
         }
+    }
+
+    private async getToken(): Promise<string>{
+        let userToken: string = '';
+
+        return userToken;
     }
     
 }
