@@ -1,5 +1,5 @@
 import { Server } from "./Server";
-import dotenv from 'dotenv';
+import dotenv from "dotenv";
 import { authenticate } from "./DataBase/DataBase";
 dotenv.config();
 const app = new Server();

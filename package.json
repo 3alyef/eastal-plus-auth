@@ -7,7 +7,7 @@
     "ts-node": "^10.9.2",
     "tsx": "^4.7.1"
   },
-  "name": "al-postel-rest-api",
+  "name": "al-postel-rest-api-m1",
   "description": "",
   "version": "1.0.0",
   "main": "index.js",
