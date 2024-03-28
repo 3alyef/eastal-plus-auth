@@ -10,9 +10,13 @@ class Register {
             if(_isPasswordOk){
                 const _alreadyHaveEmail = await this.verifyEmail(email);
                 if(!_alreadyHaveEmail) {
-                    const newUser = await this.createNewAccount(user_name, email, password);
                     
-                    return res.status(200).json({ message: "Registro bem-sucedido.", newUser });
+                    const soulName = await this.generateSoulName(user_name);
+                    if(soulName){ 
+                        const newUser = await this.createNewAccount(user_name, email, password, soulName);
+                    
+                        return res.status(200).json({ message: "Registro bem-sucedido.", newUser }); 
+                    }
 
                 } else {
                     res.status(400).json({ message: "Email já cadastrado." });
@@ -31,7 +35,7 @@ class Register {
        
     }
 
-    private verifyPassword(password: string, repeatPassword: string){
+    private verifyPassword(password: string, repeatPassword: string): boolean {
         try {
             if(repeatPassword !== null && password !== repeatPassword){
                 return false;
@@ -43,7 +47,7 @@ class Register {
         
     }
 
-    private async verifyEmail(email: string) {
+    private async verifyEmail(email: string): Promise<boolean> {
 
         try {
             // Verifica se já há um usuário cadastrado com o mesmo email
@@ -57,13 +61,44 @@ class Register {
         
     }
 
-    private async createNewAccount(user_name: string, email: string, password: string) {
+    private async generateSoulName(user_name: string): Promise<string> {
+        let user: string;
+
+        if (user_name.includes(" ")) {
+            user = user_name.split(" ")[0];
+        } else {
+            user = user_name;
+        }
+        let soulName = `rukh0${user}1`;
+        
+        try {
+            const documentos: any[] = await userModel.find({});
+            const soulNames: string[] = documentos.map(doc => doc.soulName);
+    
+            // Gera um soulName único
+            let i = 1;
+            while (soulNames.includes(soulName)) {
+                soulName = `rukh${i}${user}${i + 1}`;
+                i++;
+            }
+    
+            return soulName;
+        } catch (error) {
+            console.error('Erro ao gerar soulName:', error);
+            throw error; // Propaga o erro para quem chamou o método
+        }
+    }
+    
+    
+
+    private async createNewAccount(user_name: string, email: string, password: string, soulName: string): Promise<object> {
         try {
             const newUser = new userModel (
                 {
                     user_name: user_name,
                     email: email,
-                    password: password
+                    password: password,
+                    soulName: soulName
                 }
             )
 
