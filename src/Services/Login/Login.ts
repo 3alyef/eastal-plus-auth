@@ -80,7 +80,7 @@ class Login {
     private async getToken(idC: string, soulNameC: string, emailC: string): Promise<{ auth: boolean, token: string, URL_M2: string }> {
 
         const body = JSON.stringify({ idC, soulNameC, emailC });
-
+        console.log(body)
         try {
             const response = await fetch(`${this.URL}/connect`, {
                 method: 'POST',
