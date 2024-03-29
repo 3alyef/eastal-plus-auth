@@ -15,11 +15,18 @@ class Login {
             if(user){
                 const key = process.env.KEY || "test"; // Chave de 256 bits (32 bytes)
                 const iv = Buffer.alloc(16);
+                
                 const idC = this.encryptMessage((user._id).toString(), key, iv);
+
                 const soulNameC = this.encryptMessage(user.soulName, key, iv);
+
                 const emailC = this.encryptMessage(email, key, iv);
-                console.log(user._id, user.soulName, email);
-                const token = await this.getToken(idC, soulNameC, emailC);
+
+                const friendLet = process.env.FRIEND_LET || "need";
+
+                const friendLetC = this.encryptMessage(friendLet.toString(), key, iv);
+                
+                const token = await this.getToken(idC, soulNameC, emailC, friendLetC);
                 
         
                 console.log(token)
@@ -71,16 +78,16 @@ class Login {
         return encrypted;
     } // criptografa os dados
 
-    private async getToken(idC: string, soulNameC: string, emailC: string) {
-        const response = await this.connectM2(idC, soulNameC, emailC);
+    private async getToken(idC: string, soulNameC: string, emailC: string, friendLetC: string) {
+        const response = await this.connectM2(idC, soulNameC, emailC, friendLetC);
 
         return response;
     }
     
-    private async connectM2(idC: string, soulNameC: string, emailC: string) {
+    private async connectM2(idC: string, soulNameC: string, emailC: string, friendLetC: string) {
         const URL = `${process.env.M2ADRESS}/connect`;
-        const me = "שלוםسلام"
-        const body = JSON.stringify({ idC, soulNameC, emailC, me });
+        
+        const body = JSON.stringify({ idC, soulNameC, emailC, friendLetC });
 
         try {
             const response = await fetch(URL, {
