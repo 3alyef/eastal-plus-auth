@@ -1,4 +1,3 @@
-// const express = require("express");
 import express from "express";
 import { router } from "./Routes/Routes";
 
@@ -11,12 +10,12 @@ class Server {
         this.routes();
     }
 
-    private middleware = () =>{
+    private middleware = () :void => {
         // Adiciona o middleware express.json() para fazer o parse do corpo da requisição
         this.server.use(express.json());
     };
 
-    private routes = ()=>{
+    private routes = () :void =>{
         this.server.use(router);
     }
 

@@ -4,7 +4,6 @@ class LoginController {
     postLogin(req: Request, res: Response) {
         // res.send('Você está tentando fazer login! Bem, vamos começar!')
         new Login().initialize(req, res);
-
     }
 }
 

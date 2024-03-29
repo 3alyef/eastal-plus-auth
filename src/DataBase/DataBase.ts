@@ -5,7 +5,7 @@ async function authenticate() {
     try {
         // Conectar ao banco de dados usando a URL de conexão fornecida
         await mongoose.connect(`${DB_HOST}`);
-        console.log('Conexão bem-sucedida com o banco de dados MongoDB');
+        console.log('Conexão bem-sucedida com o banco de dados MongoDB.');
     } catch (error) {
         console.error('Erro ao conectar ao banco de dados MongoDB:', error);
     }
