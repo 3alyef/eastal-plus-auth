@@ -45,7 +45,7 @@ class Login {
 
         } catch( error ){
             console.log(error);
-            res.status(400).json({ message: "Ocorreu um erro durante o login."})
+            res.status(400).json({ message: "Ocorreu um erro durante o login.", error})
         }
     }
 
