@@ -7,12 +7,11 @@ interface User {
     soulName: string;
 }
 class Login {
-    private URL: string;
     private KEY: string;
     private iv: Buffer;
-    
+    private static URL = process.env.M2ADRESS || "need URL";
     constructor(){
-        this.URL = process.env.M2ADRESS || "need URL";
+        
         this.KEY = process.env.KEY || "test";
         this.iv = Buffer.alloc(16); // Chave de 256 bits (32 bytes)    
     }
@@ -35,7 +34,7 @@ class Login {
                 const m2_res = await this.getToken( idC, soulNameC, emailC );
 
                 if(m2_res){
-                    res.status(200).json({ auth: m2_res.auth, token: m2_res.token , URL_M2: m2_res.URL_M2 })
+                    res.status(200).json({ auth: m2_res.auth, token: m2_res.token , URL_M2: Login.URL })
                 } else {
                     console.error("Erro ao gerar token.");
                     throw new Error("Erro ao gerar token.")
@@ -77,12 +76,12 @@ class Login {
         return encrypted;
     } // criptografa os dados
 
-    private async getToken(idC: string, soulNameC: string, emailC: string): Promise<{ auth: boolean, token: string, URL_M2: string }> {
+    private async getToken(idC: string, soulNameC: string, emailC: string): Promise<{ auth: boolean, token: string }> {
 
         const body = JSON.stringify({ idC, soulNameC, emailC });
         console.log(body)
         try {
-            const response = await fetch(`${this.URL}/connect`, {
+            const response = await fetch(`${Login.URL}/connect`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -97,7 +96,7 @@ class Login {
             return await response.json();
         } catch (error) {
             console.error('Erro ao conectar com M2:', error);
-            return { auth: false, token: '', URL_M2: '' };
+            return { auth: false, token: '' };
         }
     } // envia a requisição de token para M2
     
