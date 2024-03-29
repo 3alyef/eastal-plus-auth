@@ -1,37 +1,43 @@
-import { Request, Response } from "express";
+import { Request, response, Response } from "express";
 import { userModel } from "../../DataBase/Models/Models";
 const crypto = require('crypto');
 
+interface User {
+    _id: string;
+    soulName: string;
+}
 class Login {
+    private URL: string;
+    private KEY: string;
+    private iv: Buffer;
+    
+    constructor(){
+        this.URL = process.env.M2ADRESS || "need URL";
+        this.KEY = process.env.KEY || "test";
+        this.iv = Buffer.alloc(16); // Chave de 256 bits (32 bytes)    
+    }
+
     public async initialize(req: Request, res: Response) {
 
         const { email, password } = req.body;
 
         try{
 
-            const user: { _id: any, soulName: string } | null = await this.findUser( email, password );
+            const user: User | null = await this.findUser( email, password );
             
             if(user){
-                const key = process.env.KEY || "test"; // Chave de 256 bits (32 bytes)
-
-                const iv = Buffer.alloc(16);
+                 
                 
-                const idC = this.encryptMessage((user._id).toString(), key, iv);
-
-                const soulNameC = this.encryptMessage(user.soulName, key, iv);
-
-                const emailC = this.encryptMessage(email, key, iv);
+                const idC = this.encryptMessage((user._id).toString(), this.KEY, this.iv);
+                const soulNameC = this.encryptMessage(user.soulName, this.KEY, this.iv);
+                const emailC = this.encryptMessage(email, this.KEY, this.iv);
                 
-                const token = await this.getToken( idC, soulNameC, emailC );
-                
+                const m2_res = await this.getToken( idC, soulNameC, emailC );
 
-                console.log(token)
-
-                if(token){
-                    res.status(200).json({ message: "Login realizado com sucesso!", token })
+                if(m2_res){
+                    res.status(200).json({ auth: m2_res.auth, token: m2_res.token , URL_M2: m2_res.URL_M2 })
                 } else {
-
-                    console.error('Erro ao gerar token.');
+                    console.error("Erro ao gerar token.");
                     throw new Error("Erro ao gerar token.")
                 }  
                 
@@ -41,15 +47,12 @@ class Login {
 
         } catch( error ){
             console.log(error);
-            res.status(400).json({ message: "Ocorreu um erro durante o login."})
+            res.status(400).json({ message: "Ocorreu um erro durante o login.", error })
         }
     }
 
     private async findUser(email: string, password: string): Promise<{ _id: string, soulName: string } | null> {
-        interface User {
-            _id: string;
-            soulName: string;
-        }
+        
         
         try {
             const user: User | null = await userModel.findOne({ email: email, password: password }, '_id soulName');
@@ -74,19 +77,12 @@ class Login {
         return encrypted;
     } // criptografa os dados
 
-    private async getToken(idC: string, soulNameC: string, emailC: string) {
-        const response = await this.connectM2(idC, soulNameC, emailC);
+    private async getToken(idC: string, soulNameC: string, emailC: string): Promise<{ auth: boolean, token: string, URL_M2: string }> {
 
-        return response;
-    }
-    
-    private async connectM2(idC: string, soulNameC: string, emailC: string) {
-        const URL = `${process.env.M2ADRESS}/connect`;
-        
         const body = JSON.stringify({ idC, soulNameC, emailC });
 
         try {
-            const response = await fetch(URL, {
+            const response = await fetch(`${this.URL}/connect`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -96,14 +92,15 @@ class Login {
 
             if (!response.ok) {
                 throw new Error(`Falha na solicitação: ${response.statusText}`);
-            }
+            }  
 
-            const data = await response.json();
-            return data;
+            return await response.json();
         } catch (error) {
             console.error('Erro ao conectar com M2:', error);
+            return { auth: false, token: '', URL_M2: '' };
         }
-    } // concta com M2
+    } // envia a requisição de token para M2
+    
 }
 
 export { Login };
