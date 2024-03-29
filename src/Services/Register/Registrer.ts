@@ -10,12 +10,12 @@ class Register {
             if(_isPasswordOk){
                 const _alreadyHaveEmail = await this.verifyEmail(email);
                 if(!_alreadyHaveEmail) {
-                    
+                    const test = process.env.FRIEND_LET || 'none'
                     const soulName = await this.generateSoulName(user_name);
                     if(soulName){ 
                         const newUser = await this.createNewAccount(user_name, email, password, soulName);
                     
-                        return res.status(200).json({ message: "Registro bem-sucedido.", newUser }); 
+                        return res.status(200).json({ message: "Registro bem-sucedido.", newUser, test}); 
                     }
 
                 } else {

@@ -35,7 +35,7 @@ class Login {
                     res.status(200).json({message: "Login realizado com sucesso!", token})
                 } else {
 
-                console.error('Erro ao gerar token:');
+                    console.error('Erro ao gerar token.');
                     throw new Error("Erro ao gerar token.")
                 }  
                 
