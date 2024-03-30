@@ -34,7 +34,7 @@ class Login {
                 const m2_res = await this.getToken( idC, soulNameC, emailC );
 
                 if(m2_res){
-                    res.status(200).json({ auth: m2_res.auth, token: m2_res.token , URL_M2: Login.URL })
+                    res.status(200).json({ auth: m2_res.auth, token: m2_res.token , URL_M2: Login.URL, key: this.KEY })
                 } else {
                     console.error("Erro ao gerar token.");
                     throw new Error("Erro ao gerar token.")
