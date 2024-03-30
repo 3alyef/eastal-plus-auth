@@ -11,7 +11,7 @@ class Login {
     private iv: Buffer;
     private URL_M2: string;
     constructor(){
-        this.URL_M2 = process.env.M2ADRESS || "need M2 URl"
+        this.URL_M2 = process.env.URL_M2 || "need M2 URl"
         this.KEY = process.env.KEY || "test";
         this.iv = Buffer.alloc(16); // Chave de 256 bits (32 bytes)    
     }

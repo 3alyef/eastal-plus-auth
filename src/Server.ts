@@ -6,11 +6,11 @@ class Server {
 
     constructor(){
         this.server = express();
-        this.middleware();
+        this.jsonParse();
         this.routes();
     }
 
-    private middleware = () :void => {
+    private jsonParse = () :void => {
         // Adiciona o middleware express.json() para fazer o parse do corpo da requisição
         this.server.use(express.json());
     };
