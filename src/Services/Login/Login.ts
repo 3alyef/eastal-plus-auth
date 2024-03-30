@@ -9,9 +9,9 @@ interface User {
 class Login {
     private KEY: string;
     private iv: Buffer;
-    private static URL = process.env.M2ADRESS || "need URL";
+    private URL_M2: string;
     constructor(){
-        
+        this.URL_M2 = process.env.M2ADRESS || "need M2 URl"
         this.KEY = process.env.KEY || "test";
         this.iv = Buffer.alloc(16); // Chave de 256 bits (32 bytes)    
     }
@@ -34,7 +34,7 @@ class Login {
                 const m2_res = await this.getToken( idC, soulNameC, emailC );
 
                 if(m2_res){
-                    res.status(200).json({ auth: m2_res.auth, token: m2_res.token , URL_M2: Login.URL, key: this.KEY })
+                    res.status(200).json({ auth: m2_res.auth, token: m2_res.token , URL_M2: this.URL_M2 })
                 } else {
                     console.error("Erro ao gerar token.");
                     throw new Error("Erro ao gerar token.")
@@ -81,7 +81,7 @@ class Login {
         const body = JSON.stringify({ idC, soulNameC, emailC });
         console.log(body)
         try {
-            const response = await fetch(`${Login.URL}/connect`, {
+            const response = await fetch(`${this.URL_M2}/connect`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
