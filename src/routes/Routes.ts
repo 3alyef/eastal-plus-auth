@@ -12,4 +12,6 @@ router.post('/login', Controll.loginController.postLogin);
 router.post('/register', Controll.registerController.postRegister);
 router.post('/unregister', Controll.unregisterController.postUnregister);
 
+router.post('/searchUser', Controll.searchUserController.postSearchUser);
+
 export { router };

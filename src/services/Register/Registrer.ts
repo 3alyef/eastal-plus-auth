@@ -15,7 +15,7 @@ class Register {
                     if(soulName){ 
                         const newUser = await this.createNewAccount(user_name, email, password, soulName);
                     
-                        return res.status(200).json({ message: "Registro bem-sucedido.", newUser, test}); 
+                        return res.status(201).json({ message: "Registro bem-sucedido.", newUser, test}); 
                     }
 
                 } else {
