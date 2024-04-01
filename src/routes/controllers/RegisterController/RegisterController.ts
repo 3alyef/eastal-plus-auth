@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { Register } from "../../../Services/Services";
+import { Register } from "../../../services/Services";
 
 class RegisterController {
     postRegister(req: Request, res: Response){

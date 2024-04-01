@@ -1,5 +1,5 @@
 import express from "express";
-import { router } from "./Routes/Routes";
+import { router } from "./routes/Routes";
 
 class Server {
     public server: express.Application;
@@ -11,7 +11,6 @@ class Server {
     }
 
     private jsonParse = () :void => {
-        // Adiciona o middleware express.json() para fazer o parse do corpo da requisição
         this.server.use(express.json());
     };
 

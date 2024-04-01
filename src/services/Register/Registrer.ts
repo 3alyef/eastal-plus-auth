@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { userModel } from "../../DataBase/Models/Models";
+import { userModel } from "../../db/models/Models";
 class Register {
 
     public async initialize(req: Request, res: Response) {

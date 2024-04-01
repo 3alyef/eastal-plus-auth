@@ -1,4 +1,4 @@
-import { mongoose } from "../../DataBase";
+import { mongoose } from "../../DB";
 
 const UserScheme = new mongoose.Schema({
     main_id: String,
