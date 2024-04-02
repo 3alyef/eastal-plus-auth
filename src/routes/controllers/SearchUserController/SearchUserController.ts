@@ -10,14 +10,16 @@ class SearchUserController{
         try {
             const userSoul:string | null = await new SearchByEmail().initialize(email)
             if(userSoul){
-                res.status(200).send({ userSoul }).end();
+                res.status(200).send({ found: true, userSoul, message: "found" }).end();
+
             } else {
-                res.status(404).send({ message: "not found" }).end();
-            }
+                res.status(404).send({ found: false, userSoul: null, message: "not found" }).end();
+
+            } 
 
         } catch(error){
             console.error('Erro durante a pesquisa por email:', error);
-            res.status(500).send({ message: "internal server error" }).end();
+            res.status(500).send({ found: false, message: "internal server error" }).end();
         }
 
 
