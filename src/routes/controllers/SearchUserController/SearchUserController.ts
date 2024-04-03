@@ -16,13 +16,10 @@ class SearchUserController{
                 res.status(404).send({ found: false, userSoul: null, message: "not found" }).end();
 
             } 
-
         } catch(error){
             console.error('Erro durante a pesquisa por email:', error);
             res.status(500).send({ found: false, message: "internal server error" }).end();
         }
-
-
     }
 }
 
