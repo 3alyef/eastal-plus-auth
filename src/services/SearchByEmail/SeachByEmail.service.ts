@@ -14,8 +14,6 @@ class SearchByEmail {
     }
 
     private async findUser(email: string): Promise<string | null> {
-        
-        
         try {
             const user: { soulName: string } | null = await userModel.findOne({ email: email }, 'soulName');
     

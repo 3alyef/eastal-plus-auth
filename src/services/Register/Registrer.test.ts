@@ -1,4 +1,4 @@
-import { Register } from "./Registrer";
+import { Register } from "./Registrer.service";
 import { Request, Response } from "express";
 import { userModel } from "../../db/models/Models";
 

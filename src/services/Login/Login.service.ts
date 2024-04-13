@@ -1,7 +1,8 @@
 import { Request, response, Response } from "express";
 import { userModel } from "../../db/models/Models";
 const crypto = require('crypto');
-
+import { validateCredentials } from "../Services";
+import { CustomError } from "../../interfaces/common.interface";
 interface User {
     _id: string;
     soulName: string;
@@ -17,16 +18,11 @@ class Login {
     }
 
     public async initialize(req: Request, res: Response) {
-
         const { email, password } = req.body;
-
         try{
-
             const user: User | null = await this.findUser( email, password );
             
-            if(user){
-                 
-                
+            if(user){             
                 const idC = this.encryptMessage((user._id).toString(), this.KEY, this.iv);
                 const soulNameC = this.encryptMessage(user.soulName, this.KEY, this.iv);
                 const emailC = this.encryptMessage(email, this.KEY, this.iv);
@@ -41,46 +37,47 @@ class Login {
                 }  
                 
             } else {
-                res.status(401).json({ message: "Email ou senha não conferem!" });
+                throw {message: "Email ou senha não conferem!", status: 401}
             }
 
         } catch( error ){
-            console.log(error);
-            res.status(400).json({ message: "Ocorreu um erro durante o login.", error })
+            const { status, message } = error as CustomError;
+            console.error("Erro ao tentar fazer login: "+ message);
+            res.status(status).json({ message }).end();
         }
     }
 
-    private async findUser(email: string, password: string): Promise<{ _id: string, soulName: string } | null> {
+    private async findUser(email: string, password: string): Promise<{ _id: string, soulName: string } | null> {   
         
-        
-        try {
-            const user: User | null = await userModel.findOne({ email: email, password: password }, '_id soulName');
-    
-            if (user) {
-                // Retorna um objeto contendo o _id e o soulName do usuário
-                return { _id: user._id, soulName: user.soulName };
-            } else {
-                // Retorna null se nenhum usuário for encontrado
-                return null;
-            }
-        } catch (error) {
-            console.error('Erro ao encontrar usuário:', error);
-            throw new Error('Ocorreu um erro ao encontrar o usuário.');
+        const {passEncrypt}: { passEncrypt: string } = await validateCredentials(email, password, true);
+        const user: User | null = await userModel.findOne({ email: email, password: passEncrypt }, '_id soulName');
+
+        if (user) {
+            // Retorna um objeto contendo o _id e o soulName do usuário
+            return { _id: user._id, soulName: user.soulName };
+        } else {
+            // Retorna null se nenhum usuário for encontrado
+            return null;
         }
+                
+      
     } // valida as credênciais email and password na database
 
     private encryptMessage(message: string, key: string, iv: Buffer): string {
         const cipher = crypto.createCipheriv('aes-256-cbc', key, iv);
         let encrypted = cipher.update(message, 'utf8', 'hex');
         encrypted += cipher.final('hex');
+        if(!encrypted){
+            throw {message: "Erro ao encriptar dados.", status: 500}
+        }
         return encrypted;
-    } // criptografa os dados
+    
+    } 
 
     private async getToken(idC: string, soulNameC: string, emailC: string): Promise<{ auth: boolean, token: string }> {
-
-        const body = JSON.stringify({ idC, soulNameC, emailC });
-        console.log(body)
         try {
+            const body = JSON.stringify({ idC, soulNameC, emailC });
+            console.log(body)
             const response = await fetch(`${this.URL_M2}/connect`, {
                 method: 'POST',
                 headers: {
@@ -88,18 +85,17 @@ class Login {
                 },
                 body: body
             });
-            console.log(response)
+            // console.log(response)
             if (!response.ok) {
-                
-                throw new Error(`Falha na solicitação: ${response.statusText}`);
+                throw {message: response.statusText}
             }  
-
             return await response.json();
         } catch (error) {
-            console.error('Erro ao conectar com M2:', error);
+            const err = error as CustomError
+            console.error('Erro ao conectar com M2:', err.message);
             return { auth: false, token: '' };
         }
-    } // envia a requisição de token para M2
+    }
     
 }
 

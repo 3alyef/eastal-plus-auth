@@ -1,8 +1,10 @@
 import { Request, Response } from "express";
+import { Unregister } from "../../../services/Services";
+import { unregisterRequest } from "../../../interfaces/unregister.interface";
 
 class UnregisterController {
-    postUnregister(req: Request, res: Response){
-        res.send("Você está tentando apagar sua conta!")
+    postUnregister(req: Request<{body: unregisterRequest}>, res: Response){
+        new Unregister().initialize(req, res);
     }
 }
 
