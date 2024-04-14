@@ -1,5 +1,6 @@
 import { Request, Response, Router } from "express";
 import * as Controll from "./controllers/Controllers";
+import { unregisterMiddleware } from "../middlewares/unregisterMiddleware";
 
 const router: Router = Router();
 
@@ -10,8 +11,7 @@ router.get('/', (req: Request, res: Response)=>{
 
 router.post('/login', Controll.loginController.postLogin);
 router.post('/register', Controll.registerController.postRegister);
-router.post('/unregister', Controll.unregisterController.postUnregister);
-
+router.post('/unregister', unregisterMiddleware, Controll.unregisterController.postUnregister);
 router.post('/searchUser', Controll.searchUserController.postSearchUser);
 
 export { router };

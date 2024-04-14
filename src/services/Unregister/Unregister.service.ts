@@ -11,22 +11,26 @@ export default class Unregister {
             const {passEncrypt}: { passEncrypt: string } = await validateCredentials(email, password, false);
 
             await this.deleteAccount(email, passEncrypt);
-
-            res.status(204).end();
+            
+            console.log("Success!!!!!")
+            const respost = JSON.stringify({message: "Success!"})
+            res.status(204).send(respost).end();
         } catch( error ){ 
             const { status, message } = error as CustomError;
             console.error("Erro ao deletar conta: "+ message);
-            res.status(status).json({ message }).end();
+            console.log(message)
+            res.status(status).end();
         }
     }
 
     private async deleteAccount(email: string, passEncrypt: string){
         try {
             const data = await userModel.deleteOne({email: email, password: passEncrypt});
+
             if(!data.deletedCount){
                 throw {message: "Erro ao deletar conta", status: 501};
             }
-            return;
+            return data;
         } catch( error ){
             throw error;
         }
