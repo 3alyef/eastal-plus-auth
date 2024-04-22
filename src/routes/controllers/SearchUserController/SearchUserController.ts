@@ -11,12 +11,10 @@ class SearchUserController{
             const userSoul:string | null = await new SearchByEmail().initialize(email)
             if(userSoul){
                 console.log("FOUND: "+ userSoul)
-                res.status(200).send({ found: true, userSoul, message: "found" }).end();
-
-
+                res.status(302).json({ found: true, userSoul, message: "found" }).end();
             } else {
                 console.log("NOT FOUND")
-                res.status(404).send({ found: false, userSoul: null, message: "not found" }).end();
+                res.status(404).json({ found: false, userSoul: null, message: "not found" }).end();
 
             } 
         } catch(error){

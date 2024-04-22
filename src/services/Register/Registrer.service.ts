@@ -1,33 +1,46 @@
 import { Request, Response } from "express";
-import { userModel } from "../../db/models/Models";
+import { DataUserImageModel, userModel } from "../../db/models/Models";
 import { hash } from "bcrypt";
 import { randomInt } from "node:crypto";
 import { CustomError } from "../../interfaces/common.interface";
 class Register {
 
     public async initialize(req: Request, res: Response) {
-        const { user_name, email, password, repeatPassword } = req.body;
+        const { user_name, email, password, repeatPassword, image } = req.body;
+        
         
         try {
-            const _isPasswordOk= this.verifyPassword(password, repeatPassword);
-            if(_isPasswordOk){
-                const _alreadyHaveEmail = await this.verifyEmail(email);
-                if(!_alreadyHaveEmail) {
-                    const test = process.env.FRIEND_LET || 'none'
-                    const soulName = await this.generateSoulName(user_name);
-                    if(soulName){ 
-                        const EncryptPass = await this.passwordEncrypt(password);
-                        const newUser = await this.createNewAccount(user_name, email, EncryptPass, soulName);
-                    
-                        return res.status(201).json({ message: "Registro bem-sucedido.", newUser, test}); 
-                    }
+            if(user_name && email && password && repeatPassword){
+                const _isPasswordOk= this.verifyPassword(password, repeatPassword);
+            
+                if(_isPasswordOk){
+                    const _alreadyHaveEmail = await this.verifyEmail(email);
+                    if(!_alreadyHaveEmail) {
+                        
+                        const soulName = await this.generateSoulName(user_name);
+                        if(soulName){ 
+                            const EncryptPass = await this.passwordEncrypt(password);
+                            const newUser = await this.createNewAccount(user_name, email, EncryptPass, soulName);
+                            if(image){
+                                const newImage = await this.createNewImage(image, soulName);
+                                return res.status(201).json({ message: "Registro bem-sucedido.", newUser, newImage});
+                            } else {
+                                return res.status(201).json({ message: "Registro bem-sucedido.", newUser}); 
+                            }            
+                        } else {
+                            throw {message: "Erro ao gerar soulName", status: 500}
+                        }
 
+                    } else {
+                        throw { message: "Email já cadastrado.", status: 400}
+                    }
                 } else {
-                    throw { message: "Email já cadastrado.", status: 400}
+                    throw { message: "As senhas não correspondem", status: 406}
                 }
             } else {
-                throw { message: "As senhas não correspondem", status: 406}
+                throw { message: "Dados invalidos ou faltando", status: 401}
             }
+            
             
         } catch (error) {
             const { status, message } = error as CustomError;
@@ -90,8 +103,6 @@ class Register {
         return EncryptPass;
     }
     
-    
-
     private async createNewAccount(user_name: string, email: string, password: string, soulName: string): Promise<object> {        
         const newUser = new userModel (
             {
@@ -107,6 +118,24 @@ class Register {
             throw {message: "Ocorreu um erro ao criar a conta.", status: 501}
         }
         return newUser; 
+    }
+
+    private async createNewImage(image: string, soulName: string): Promise<object> {
+        const dateInf = new Date(); 
+        const lastUpdateIn =  dateInf.toISOString();
+        const newUserImage = new DataUserImageModel (
+            {
+                userImage: image,
+                soulName: soulName,
+                lastUpdateIn   
+            }
+        )
+
+        await newUserImage.save();
+        if(!newUserImage){
+            throw {message: "Ocorreu um erro ao salvar imagem.", status: 501}
+        }
+        return newUserImage; 
     }
 }
 

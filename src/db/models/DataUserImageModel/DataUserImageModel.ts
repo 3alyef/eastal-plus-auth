@@ -2,10 +2,10 @@ import { mongoose } from "../../DB";
 
 const UserScheme = new mongoose.Schema({
     soulName: String,
-    custom_name: String,
+    userImage: String,
     lastUpdateIn: String
 });
 
-const DataUserModel = mongoose.model('UserDetails', UserScheme);
+const DataUserImageModel = mongoose.model('UserImageDetails', UserScheme);
 
-export { DataUserModel };
+export { DataUserImageModel };
