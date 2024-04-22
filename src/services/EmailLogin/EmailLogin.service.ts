@@ -15,7 +15,8 @@ interface searchProfileInt {
 export class EmailLogin {
     public async initialize(req: Request<{body:{email: string}}>, res: Response) {
         try {
-            const {email} = req.body
+            
+            const {email} = req.body;
             if(email){
                 const userData: userLoginEmail | null = await this.searchEmail(email)
                 if(userData){

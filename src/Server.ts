@@ -18,12 +18,10 @@ class Server {
     };
 
     private setupCors(): void {
-        this.server.use((req: express.Request, res: express.Response, next)=>{
-            res.header("Access-Control-Allow-Origin", this.ALLOW );
-            res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
-            this.server.use(cors());
-            next();
-        })
+        this.server.use(cors({
+            origin: [this.ALLOW, "http://localhost:3000", "https://al-postel.vercel.app"],
+            methods: ["GET", "PUT", "POST", "DELETE"]
+        }));
     }
 
     private routes = () :void =>{

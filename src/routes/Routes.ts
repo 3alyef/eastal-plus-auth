@@ -9,7 +9,7 @@ router.get('/', (req: Request, res: Response)=>{
     res.send("Hello! Welcome to Al-PostEl!");
 })
 
-router.post('/email', Controll.loginController.postEmail)
+router.post('/login/email', Controll.loginController.postEmail)
 router.post('/login', Controll.loginController.postLogin);
 router.post('/register', Controll.registerController.postRegister);
 router.post('/unregister', unregisterMiddleware, Controll.unregisterController.postUnregister);
