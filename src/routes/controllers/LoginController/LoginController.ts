@@ -10,6 +10,7 @@ class LoginController {
     }
     postEmail(req: Request<{body:{email: string}}>, res: Response) {
         // Vai conferir no database se existe algum email correspondente
+        console.log("rota postEmail")
         new EmailLogin().initialize(req, res);
     }
    
