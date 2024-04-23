@@ -1,13 +1,14 @@
 import { Request, Response } from "express";
 import { userModel, DataUserImageModel } from "../../db/models/Models";
 import { CustomError } from "../../interfaces/common.interface";
+import { TokenGenerate } from "../Services";
 
 interface userLoginEmail {
     email: string; 
     soulName: string 
 }
 
-interface searchProfileInt {
+export interface searchProfileInt {
     userImage: string;
     lastUpdateIn: string
 }
@@ -22,9 +23,10 @@ export class EmailLogin {
                 if(userData){
                     // Irá buscar pela fota de perfil do usuario
                     const profileImage: searchProfileInt | null = await this.searchProfile(userData.soulName)
-                   
+                    
                     if(profileImage){
-                        res.status(200).json({ image: profileImage.userImage, lastUpdateIn: profileImage.lastUpdateIn })
+                        const token: string = new TokenGenerate().TokenGenerator(profileImage)
+                        res.status(200).json({ token })
                     } else {
                         res.status(200).json(null)
                     }

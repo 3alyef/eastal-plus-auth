@@ -4,4 +4,5 @@ import { SearchByEmail } from "./SearchByEmail/SeachByEmail.service";
 import Unregister from "./Unregister/Unregister.service";
 import { validateCredentials } from "./ValidateCredentials/ValidateCredentials.service";
 import { EmailLogin } from "./EmailLogin/EmailLogin.service";
-export { Login, Register, SearchByEmail, Unregister, validateCredentials, EmailLogin };
+import { TokenGenerate } from "./TokenGenerate/TokenGenerate.service"
+export { Login, Register, SearchByEmail, Unregister, validateCredentials, EmailLogin, TokenGenerate };
