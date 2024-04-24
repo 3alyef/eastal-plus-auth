@@ -6,6 +6,7 @@ class LoginController {
 
     postLogin(req: Request, res: Response) {
         // res.send('Você está tentando fazer login! Bem, vamos começar!')
+        console.log('passou postLogin')
         new Login().initialize(req, res);
     }
     postEmail(req: Request<{body:{email: string}}>, res: Response) {
