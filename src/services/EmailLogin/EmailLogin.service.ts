@@ -9,8 +9,8 @@ interface userLoginEmail {
 }
 
 export interface searchProfileInt {
-    userImage: string;
-    lastUpdateIn: string
+    userImage: string | null;
+    lastUpdateIn: string | null
 }
 
 export class EmailLogin {
@@ -28,7 +28,8 @@ export class EmailLogin {
                         const token: string = new TokenGenerate().TokenGenerator(profileImage)
                         res.status(200).json({ token })
                     } else {
-                        res.status(200).json(null)
+                        const token: string = new TokenGenerate().TokenGenerator({userImage: null, lastUpdateIn: null})
+                        res.status(200).json({token})
                     }
                 } else {
                     throw {status: 401, message: "email não encontrado..."}
