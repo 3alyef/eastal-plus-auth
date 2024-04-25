@@ -6,21 +6,21 @@ import { CustomError } from "../../interfaces/common.interface";
 class Register {
 
     public async initialize(req: Request, res: Response) {
-        const { user_name, email, password, repeatPassword, image } = req.body;
+        const { first_name, last_name, email, password, repeatPassword, image } = req.body;
         
         
         try {
-            if(user_name && email && password && repeatPassword){
+            if(first_name && last_name && email && password && repeatPassword){
                 const _isPasswordOk= this.verifyPassword(password, repeatPassword);
             
                 if(_isPasswordOk){
                     const _alreadyHaveEmail = await this.verifyEmail(email);
                     if(!_alreadyHaveEmail) {
                         
-                        const soulName = await this.generateSoulName(user_name);
+                        const soulName = await this.generateSoulName(first_name);
                         if(soulName){ 
                             const EncryptPass = await this.passwordEncrypt(password);
-                            const newUser = await this.createNewAccount(user_name, email, EncryptPass, soulName);
+                            const newUser = await this.createNewAccount(first_name, last_name, email, EncryptPass, soulName);
                             if(image){
                                 const newImage = await this.createNewImage(image, soulName);
                                 return res.status(201).json({ message: "Registro bem-sucedido.", newUser, newImage});
@@ -71,12 +71,12 @@ class Register {
         
     }
 
-    private async generateSoulName(user_name: string): Promise<string> {
+    private async generateSoulName(first_name: string): Promise<string> {
         let user: string;
-        if (user_name.includes(" ")) {
-            user = user_name.split(" ")[0];
+        if (first_name.includes(" ")) {
+            user = first_name.split(" ")[0];
         } else {
-            user = user_name;
+            user = first_name;
         }
         let soulName = `rukh0${user}1`;
         const documentos: any[] = await userModel.find({});
@@ -103,10 +103,11 @@ class Register {
         return EncryptPass;
     }
     
-    private async createNewAccount(user_name: string, email: string, password: string, soulName: string): Promise<object> {        
+    private async createNewAccount(first_name: string, last_name: string, email: string, password: string, soulName: string): Promise<object> {        
         const newUser = new userModel (
             {
-                user_name: user_name,
+                first_name,
+                last_name,
                 email: email,
                 password: password,
                 soulName: soulName
