@@ -10,7 +10,7 @@ class Register {
         
         
         try {
-            if(first_name && last_name && email && password && repeatPassword){
+            if(first_name && email && password && repeatPassword){
                 const _isPasswordOk= this.verifyPassword(password, repeatPassword);
             
                 if(_isPasswordOk){
@@ -23,9 +23,9 @@ class Register {
                             const newUser = await this.createNewAccount(first_name, last_name, email, EncryptPass, soulName);
                             if(image){
                                 const newImage = await this.createNewImage(image, soulName);
-                                return res.status(201).json({ message: "Registro bem-sucedido.", newUser, newImage});
+                                return res.status(201).json({ message: "Registro bem-sucedido.", status: 201});
                             } else {
-                                return res.status(201).json({ message: "Registro bem-sucedido.", newUser}); 
+                                return res.status(201).json({ message: "Registro bem-sucedido.", status: 201}); 
                             }            
                         } else {
                             throw {message: "Erro ao gerar soulName", status: 500}
