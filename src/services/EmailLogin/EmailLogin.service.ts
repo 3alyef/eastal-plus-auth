@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { userModel, DataUserImageModel } from "../../db/models/Models";
+import { userModel, dataUserImageModel } from "../../db/models/Models";
 import { CustomError } from "../../interfaces/common.interface";
 import { TokenGenerate } from "../Services";
 
@@ -59,7 +59,7 @@ export class EmailLogin {
 
     private async searchProfile(soulName: string): Promise<searchProfileInt | null>{
         const image: searchProfileInt | null = await
-        DataUserImageModel.findOne({soulName: soulName}, "userImage lastUpdateIn")
+        dataUserImageModel.findOne({soulName: soulName}, "userImage lastUpdateIn")
         if (image) {
            
             return image;

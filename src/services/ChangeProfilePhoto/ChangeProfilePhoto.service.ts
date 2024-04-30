@@ -1,16 +1,18 @@
 import { dataUserImageModel, userModel } from "../../db/models/Models";
 import { CustomError } from "../../interfaces/common.interface";
 import { Response } from "express";
+import { s3 } from "../../utils/uploadAWS.util";
 
 export async function changeProfilePhoto(res: Response, soulName: string, urlPhoto: string) {
     try {
-        
-
         const previousImg = await searchPreviousImage(soulName);
 
         if (previousImg) {
-            await changeUrlName(soulName, urlPhoto);
+            const previousURL = await changeUrlName(soulName, urlPhoto);
             // Apagar a antiga imagem no AWS
+            if(previousURL){
+                await deletePreviousImage(previousURL)
+            }
         } else {
             await createNewImageOnDataBase(soulName, urlPhoto);
         }
@@ -56,19 +58,39 @@ async function changeUrlName(soulName: string, urlPhoto: string) {
     try {
         const dateInf = new Date(); 
         const lastUpdateIn = dateInf.toISOString();
+        const previousURL = await dataUserImageModel.findOne({
+            soulName
+        }, "userImage")
         const newImage = await dataUserImageModel.updateOne(
             { soulName },
             { userImage: urlPhoto, lastUpdateIn }
         );
 
-        if (!newImage) {
+        if (!newImage || !previousURL) {
             throw { message: "An error occurred while changing the profile photo.", status: 502 };
         }
 
-        return newImage;
+        return previousURL.userImage;
     } catch (error) {
         console.error("Error while changing profile photo:", error);
         throw { message: "An error occurred while changing the profile photo.", status: 502 };
+    }
+}
+
+async function deletePreviousImage(imageUrl: string){
+    const key = imageUrl.replace('https://alpostel.s3.us-east-2.amazonaws.com/', ''); // Obtém a chave do URL
+
+    const params = {
+        Bucket: "alpostel",
+        Key: key
+    };
+
+    try {
+        await s3.deleteObject(params).promise();
+        console.log("Imagem excluída com sucesso:", imageUrl);
+    } catch (error) {
+        console.error("Erro ao excluir imagem:", error);
+        throw error;
     }
 }
 
@@ -77,3 +99,4 @@ function handleError(error: any, res: Response) {
     console.error("Error:", message);
     res.status(status).json({ message }).end();
 }
+

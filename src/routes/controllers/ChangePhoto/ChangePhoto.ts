@@ -9,7 +9,7 @@ export class ChangePhoto {
         console.log("CHANGE_PHOTO");
         console.log(req.file?.location);
 
-        const method = req.body.method;
+        const method = req.headers.method as string;
         const soulName: string = req.headers.soulname as string;
         const urlPhoto = req.file?.location;
         if(method === "changeProfile" && urlPhoto && soulName){
