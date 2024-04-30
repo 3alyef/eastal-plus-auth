@@ -21,12 +21,9 @@ class Register {
                         if(soulName){ 
                             const EncryptPass = await this.passwordEncrypt(password);
                             const newUser = await this.createNewAccount(first_name, last_name, email, EncryptPass, soulName);
-                            if(image){
-                                const newImage = await this.createNewImage(image, soulName);
-                                return res.status(201).json({ message: "Registro bem-sucedido.", status: 201});
-                            } else {
-                                return res.status(201).json({ message: "Registro bem-sucedido.", status: 201}); 
-                            }            
+                           
+                            return res.status(201).json({ message: "Registro bem-sucedido.", status: 201}); 
+                                       
                         } else {
                             throw {message: "Erro ao gerar soulName", status: 500}
                         }
@@ -121,7 +118,12 @@ class Register {
         return newUser; 
     }
 
-    private async createNewImage(image: string, soulName: string): Promise<object> {
+    
+}
+
+export { Register };
+
+/**private async createNewImage(image: string, soulName: string): Promise<object> {
         const dateInf = new Date(); 
         const lastUpdateIn =  dateInf.toISOString();
         const newUserImage = new DataUserImageModel (
@@ -137,7 +139,4 @@ class Register {
             throw {message: "Ocorreu um erro ao salvar imagem.", status: 501}
         }
         return newUserImage; 
-    }
-}
-
-export { Register };
+    } */
