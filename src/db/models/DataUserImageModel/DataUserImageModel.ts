@@ -6,6 +6,6 @@ const UserScheme = new mongoose.Schema({
     lastUpdateIn: String
 });
 
-const DataUserImageModel = mongoose.model('UserImageDetails', UserScheme);
+const dataUserImageModel = mongoose.model('UserImageDetails', UserScheme);
 
-export { DataUserImageModel };
+export { dataUserImageModel };

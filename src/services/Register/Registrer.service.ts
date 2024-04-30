@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { DataUserImageModel, userModel } from "../../db/models/Models";
+import { userModel } from "../../db/models/Models";
 import { hash } from "bcrypt";
 import { randomInt } from "node:crypto";
 import { CustomError } from "../../interfaces/common.interface";
