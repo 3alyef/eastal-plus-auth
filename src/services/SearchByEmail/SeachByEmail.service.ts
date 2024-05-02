@@ -6,12 +6,12 @@ export interface imageResp {
 }
 
 class SearchByEmail {
-    public async initialize(email: string): Promise<{userSoul: string, userImageData: imageResp} | null>{
+    public async initialize(email: string): Promise<{userSoul: string, first_name: string, userImageData: imageResp} | null>{
         try {
-            const userSoul: string | null = await this.findUser(email);
-            if(userSoul){ 
-                const userImageData: imageResp = await this.findImage(userSoul)
-                return {userSoul, userImageData};      
+            const userData: { userSoul: string, first_name: string } | null = await this.findUser(email);
+            if(userData){ 
+                const userImageData: imageResp = await this.findImage(userData.userSoul)
+                return {userSoul: userData.userSoul, first_name: userData.first_name, userImageData};      
             }
             return null
         } catch (error) {     
@@ -20,13 +20,13 @@ class SearchByEmail {
         }
     }
 
-    private async findUser(email: string): Promise<string | null> {
+    private async findUser(email: string): Promise<{ userSoul: string, first_name: string } | null> {
         try {
-            const user: { soulName: string } | null = await userModel.findOne({ email }, 'soulName');
+            const user: { soulName: string, first_name: string } | null = await userModel.findOne({ email }, 'soulName first_name');
     
             if (user) {
                 // Retorna um objeto contendo o soulName do usuário
-                return user.soulName;
+                return {userSoul: user.soulName, first_name: user.first_name}
             } else {
                 // Retorna null se nenhum usuário for encontrado
                 return null;

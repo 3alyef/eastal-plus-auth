@@ -9,7 +9,7 @@ class SearchUserController{
         // TODO: Busque pelo userSoul na DB atráves do email
 
         try {
-            const dataUser:{userSoul: string, userImageData: imageResp} | null = await new SearchByEmail().initialize(email)
+            const dataUser:{first_name: string, userSoul: string, userImageData: imageResp} | null = await new SearchByEmail().initialize(email)
             if(dataUser){
                 console.log("FOUND: "+ dataUser)
                 res.status(200).json({ found: true, dataUser, message: "found" }).end();
