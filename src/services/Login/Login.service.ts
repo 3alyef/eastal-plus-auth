@@ -1,11 +1,16 @@
 import { Request, response, Response } from "express";
-import { userModel } from "../../db/models/Models";
+import { dataUserModel, userModel } from "../../db/models/Models";
 const crypto = require('crypto');
 import { validateCredentials } from "../Services";
 import { CustomError } from "../../interfaces/common.interface";
 interface User {
     _id: string;
     soulName: string;
+}
+
+export interface costumName {
+    custom_name: string | undefined;
+    lastUpdateIn: string | undefined
 }
 class Login {
     private KEY: string;
@@ -24,11 +29,21 @@ class Login {
             const user: User | null = await this.findUser( email, password );
             
             if(user){             
+                const costumName:costumName | null = await findCostumName(user.soulName)
+                let costumNC;
+                let costumNLUPC;
+                let costumNameC: costumName = {custom_name: undefined, lastUpdateIn: undefined};
+                if(costumName && costumName.custom_name && costumName.lastUpdateIn){
+                    costumNC = this.encryptMessage((costumName.custom_name).toString(), this.KEY, this.iv);
+
+                    costumNLUPC = this.encryptMessage((costumName.lastUpdateIn).toString(), this.KEY, this.iv);
+                    costumNameC = {custom_name: costumNC, lastUpdateIn: costumNLUPC}
+                }
                 const idC = this.encryptMessage((user._id).toString(), this.KEY, this.iv);
                 const soulNameC = this.encryptMessage(user.soulName, this.KEY, this.iv);
                 const emailC = this.encryptMessage(email, this.KEY, this.iv);
-                
-                const m2_res = await this.getToken( idC, soulNameC, emailC );
+              
+                const m2_res = await this.getToken( idC, soulNameC, emailC, costumNameC );
                 if("message" in m2_res){
                     throw {status: 500, message: m2_res.message}
                 } else {
@@ -73,9 +88,9 @@ class Login {
     
     } 
 
-    private async getToken(idC: string, soulNameC: string, emailC: string): Promise<{ auth: boolean, token: string} | {message: string}> {
+    private async getToken(idC: string, soulNameC: string, emailC: string, costumNameC: costumName): Promise<{ auth: boolean, token: string} | {message: string}> {
         try {
-            const body = JSON.stringify({ idC, soulNameC, emailC });
+            const body = JSON.stringify({ idC, soulNameC, emailC, costumNameC });
             console.log(body)
             const response = await fetch(`${this.URL_M2}/connect`, {
                 method: 'POST',
@@ -94,8 +109,19 @@ class Login {
             console.error('Error connecting to M2:', err.message);
             return { message: err.message }
         }
-    }
-    
+    }    
 }
 
+export async function findCostumName(soulName: string): Promise<costumName | null>{
+    const userCustom: costumName | null = await dataUserModel.findOne({ soulName }, 'custom_name lastUpdateIn');
+
+    if (userCustom) {
+        // Returns an object containing the _id and soulName of the user
+        console.log(userCustom)
+        return { custom_name: userCustom.custom_name, lastUpdateIn: userCustom.lastUpdateIn };
+    } else {
+        // Returns null if no user is found
+        return null;
+    }
+}
 export { Login };

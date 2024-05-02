@@ -6,6 +6,6 @@ const UserScheme = new mongoose.Schema({
     lastUpdateIn: String
 });
 
-const DataUserModel = mongoose.model('UserDetails', UserScheme);
+const dataUserModel = mongoose.model('UserDetails', UserScheme);
 
-export { DataUserModel };
+export { dataUserModel };

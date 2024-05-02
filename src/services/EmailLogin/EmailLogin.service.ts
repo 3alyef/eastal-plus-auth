@@ -9,8 +9,8 @@ interface userLoginEmail {
 }
 
 export interface searchProfileInt {
-    userImage: string | null;
-    lastUpdateIn: string | null
+    userImage: string | undefined;
+    lastUpdateIn: string | undefined
 }
 
 export class EmailLogin {
@@ -22,13 +22,13 @@ export class EmailLogin {
                 const userData: userLoginEmail | null = await this.searchEmail(email)
                 if(userData){
                     // Irá buscar pela fota de perfil do usuario
-                    const profileImage: searchProfileInt | null = await this.searchProfile(userData.soulName)
+                    const profileImage: searchProfileInt | null = await searchProfile(userData.soulName)
                     
                     if(profileImage){
                         const token: string = new TokenGenerate().TokenGenerator(profileImage)
                         res.status(200).json({ token })
                     } else {
-                        const token: string = new TokenGenerate().TokenGenerator({userImage: null, lastUpdateIn: null})
+                        const token: string = new TokenGenerate().TokenGenerator({userImage: undefined, lastUpdateIn: undefined})
                         res.status(200).json({token})
                     }
                 } else {
@@ -57,15 +57,16 @@ export class EmailLogin {
         }   
     }
 
-    private async searchProfile(soulName: string): Promise<searchProfileInt | null>{
-        const image: searchProfileInt | null = await
-        dataUserImageModel.findOne({soulName: soulName}, "userImage lastUpdateIn")
-        if (image) {
-           
-            return image;
-        } else {
-          
-            return null;
-        }
+}
+
+export async function searchProfile(soulName: string): Promise<searchProfileInt | null>{
+    const image: searchProfileInt | null = await
+    dataUserImageModel.findOne({soulName: soulName}, "userImage lastUpdateIn")
+    if (image) {
+       
+        return image;
+    } else {
+      
+        return null;
     }
 }

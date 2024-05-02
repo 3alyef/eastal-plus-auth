@@ -1,4 +1,4 @@
 import { userModel } from "./UserModel/UserModel";
-import { DataUserModel } from "./DataUserModel/DataUserModel";
+import { dataUserModel } from "./DataUserModel/DataUserModel";
 import { dataUserImageModel } from "./DataUserImageModel/DataUserImageModel"
-export { userModel, DataUserModel, dataUserImageModel };
+export { userModel, dataUserModel, dataUserImageModel };

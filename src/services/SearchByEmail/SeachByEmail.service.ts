@@ -1,17 +1,39 @@
 import { dataUserImageModel, userModel } from "../../db/models/Models";
+import { searchProfile, searchProfileInt } from "../EmailLogin/EmailLogin.service";
+import { costumName, findCostumName } from "../Login/Login.service";
+
 
 export interface imageResp {
-    userImage: string | null; 
-    lastUpdateIn: string | null
+    userImage: string | undefined; 
+    lastUpdateIn: string | undefined
 }
 
 class SearchByEmail {
-    public async initialize(email: string): Promise<{userSoul: string, first_name: string, userImageData: imageResp} | null>{
+    public async initialize(email: string): Promise<{userSoul: string, first_name: string, costumName: costumName, userImageData: imageResp} | null>{
         try {
             const userData: { userSoul: string, first_name: string } | null = await this.findUser(email);
-            if(userData){ 
-                const userImageData: imageResp = await this.findImage(userData.userSoul)
-                return {userSoul: userData.userSoul, first_name: userData.first_name, userImageData};      
+            if(userData){
+                let costumName: costumName | null;
+                costumName = await findCostumName(userData.userSoul);
+                let userImageDataSearch: searchProfileInt | null = await searchProfile(userData.userSoul);
+
+                let userImageData: imageResp | null = {lastUpdateIn: undefined, userImage: undefined};
+
+                if(userImageDataSearch?.lastUpdateIn && userImageDataSearch.userImage){
+                    userImageData = {lastUpdateIn: userImageDataSearch?.lastUpdateIn, userImage: userImageDataSearch?.userImage}
+                }
+                
+                if(!costumName){
+                    costumName = {custom_name: undefined, lastUpdateIn: undefined} 
+                }
+                if(!userImageData) {
+                    userImageData = {lastUpdateIn: undefined, userImage: undefined}
+                }
+                return {
+                    userSoul: userData.userSoul, first_name:  userData.first_name, userImageData, costumName
+                }
+                   
+                   
             }
             return null
         } catch (error) {     
@@ -38,19 +60,19 @@ class SearchByEmail {
     }
 
     private async findImage(userSoul: string): Promise<imageResp>{
-        try {
-            const image = await dataUserImageModel.findOne({userSoul}, "userImage lastUpdateIn")
+        try { 
+            const image = await dataUserImageModel.findOne({soulName: userSoul}, "userImage lastUpdateIn")
             if(!image){
                 throw {message: "erro ao buscar imagem"}
             }
             return {
-                userImage: image.userImage ? image.userImage : null, 
-                lastUpdateIn: image.lastUpdateIn ? image.lastUpdateIn : null
+                userImage: image.userImage ? image.userImage : undefined, 
+                lastUpdateIn: image.lastUpdateIn ? image.lastUpdateIn : undefined
             }
         }catch(erro) {
             const {message} = erro as {message: string};
             console.log(message)
-            return {userImage: null, lastUpdateIn: null}
+            return {userImage: undefined, lastUpdateIn: undefined}
         }
 
     }

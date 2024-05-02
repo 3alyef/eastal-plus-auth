@@ -1,6 +1,9 @@
 import { Request, Response } from "express";
 import { SearchByEmail } from "../../../services/Services";
 import { imageResp } from "../../../services/SearchByEmail/SeachByEmail.service";
+import { costumName } from "../../../services/Login/Login.service";
+
+
 
 class SearchUserController{
     async postSearchUser(req: Request, res: Response){
@@ -8,10 +11,11 @@ class SearchUserController{
 
         // TODO: Busque pelo userSoul na DB atráves do email
 
-        try {
-            const dataUser:{first_name: string, userSoul: string, userImageData: imageResp} | null = await new SearchByEmail().initialize(email)
+        try { 
+            const dataUser:{first_name: string, userSoul: string, userImageData: imageResp, costumName: costumName} | null = await new SearchByEmail().initialize(email);
+
             if(dataUser){
-                console.log("FOUND: "+ dataUser)
+                console.log("FOUND: ", dataUser)
                 res.status(200).json({ found: true, dataUser, message: "found" }).end();
             } else {
                 console.log("NOT FOUND")
