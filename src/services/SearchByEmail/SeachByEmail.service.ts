@@ -59,7 +59,7 @@ class SearchByEmail {
         }
     }
 
-    private async findImage(userSoul: string): Promise<imageResp>{
+    /*private async findImage(userSoul: string): Promise<imageResp>{
         try { 
             const image = await dataUserImageModel.findOne({soulName: userSoul}, "userImage lastUpdateIn")
             if(!image){
@@ -75,7 +75,7 @@ class SearchByEmail {
             return {userImage: undefined, lastUpdateIn: undefined}
         }
 
-    }
+    }*/
 }
 
 

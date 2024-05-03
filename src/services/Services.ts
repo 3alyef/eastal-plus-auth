@@ -6,4 +6,5 @@ import { validateCredentials } from "./ValidateCredentials/ValidateCredentials.s
 import { EmailLogin } from "./EmailLogin/EmailLogin.service";
 import { TokenGenerate } from "./TokenGenerate/TokenGenerate.service";
 import { changeProfilePhoto } from "./ChangeProfilePhoto/ChangeProfilePhoto.service";
-export { Login, Register, SearchByEmail, Unregister, validateCredentials, EmailLogin, TokenGenerate, changeProfilePhoto };
+import { SearchByCostumName } from "./SearchByCostumName/SearchByCostumName.service";
+export { Login, Register, SearchByEmail, Unregister, validateCredentials, EmailLogin, TokenGenerate, changeProfilePhoto, SearchByCostumName };
