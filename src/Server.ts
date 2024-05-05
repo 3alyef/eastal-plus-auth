@@ -4,9 +4,11 @@ import { router } from "./routes/Routes";
 const cors = require("cors");
 class Server {
     public server: express.Application;
-    private ALLOW: string
+    private ALLOW_M2: string;
+    private ALLOW_ALPOSTEL: string;
     constructor(){
-        this.ALLOW = process.env.URL_M2 || "http://localhost:8888";
+        this.ALLOW_M2 = process.env.URL_M2 || "http://localhost:8888";
+        this.ALLOW_ALPOSTEL = process.env.URL_ALPOSTEL || "http://localhost:3000"
         this.server = express();
         this.jsonParse();
         this.setupCors();
@@ -19,7 +21,7 @@ class Server {
 
     private setupCors(): void {
         this.server.use(cors({
-            origin: [this.ALLOW, "http://localhost:3000", "https://al-postel.vercel.app"],
+            origin: [this.ALLOW_M2, this.ALLOW_ALPOSTEL],
             methods: ["GET", "PUT", "POST", "DELETE"]
         }));
     }
