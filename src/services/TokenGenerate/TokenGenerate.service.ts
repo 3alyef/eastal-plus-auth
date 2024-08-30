@@ -1,7 +1,5 @@
 import { searchProfileInt } from "../EmailLogin/EmailLogin.service";
-
-const jwt = require("jsonwebtoken");
-
+import * as jwt from "jsonwebtoken";
 
 class TokenGenerate {
     private tokenKey: string;

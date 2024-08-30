@@ -1,6 +1,6 @@
-import { Request, response, Response } from "express";
+import { Request, Response } from "express";
 import { dataUserModel, userModel } from "../../db/models/Models";
-const crypto = require('crypto');
+import { createCipheriv } from "crypto";
 import { validateCredentials } from "../Services";
 import { CustomError } from "../../interfaces/common.interface";
 interface User {
@@ -78,7 +78,7 @@ class Login {
     } // validates email and password credentials in the database
 
     private encryptMessage(message: string, key: string, iv: Buffer): string {
-        const cipher = crypto.createCipheriv('aes-256-cbc', key, iv);
+        const cipher = createCipheriv('aes-256-cbc', key, iv );
         let encrypted = cipher.update(message, 'utf8', 'hex');
         encrypted += cipher.final('hex');
         if(!encrypted){

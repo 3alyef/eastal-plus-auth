@@ -1,7 +1,6 @@
 import express from "express";
 import { router } from "./routes/Routes";
-
-const cors = require("cors");
+import cors from "cors";
 class Server {
     public server: express.Application;
     private ALLOW_M2: string;

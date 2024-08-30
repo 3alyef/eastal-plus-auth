@@ -15,7 +15,7 @@ class SearchByEmail {
             if(userData){
                 let costumName: costumName | null;
                 costumName = await findCostumName(userData.userSoul);
-                let userImageDataSearch: searchProfileInt | null = await searchProfile(userData.userSoul);
+                const userImageDataSearch: searchProfileInt | null = await searchProfile(userData.userSoul);
 
                 let userImageData: imageResp | null = {lastUpdateIn: undefined, userImage: undefined};
 

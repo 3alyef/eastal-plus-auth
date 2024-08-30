@@ -7,10 +7,10 @@ export async function unregisterMiddleware(req: Request<{ body: unregisterReques
     try {
         const SECURE = process.env.KEY || "test";
         const iv = Buffer.alloc(16);
-        let { email, password } = req.body;
+        const { email, password } = req.body;
         console.log("Aqui", email, password)
-        let emailD = decrypt(email, SECURE, iv);
-        let passwordD = decrypt(password, SECURE, iv);
+        const emailD = decrypt(email, SECURE, iv);
+        const passwordD = decrypt(password, SECURE, iv);
 
         if(!emailD || !passwordD || !email || !password){
             throw {message: "Erro ao verificar credênciais", status: 401};
