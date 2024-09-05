@@ -1,36 +1,50 @@
 import express from "express";
 import { router } from "./routes/Routes";
 import cors from "cors";
+import { authenticate } from "./db/DB";
 class Server {
-    public server: express.Application;
-    private ALLOW_M2: string;
-    private ALLOW_ALPOSTEL: string;
-    constructor(){
-        this.ALLOW_M2 = process.env.URL_M2 || "http://localhost:8888";
-        this.ALLOW_ALPOSTEL = process.env.URL_ALPOSTEL || "http://localhost:3000"
-        this.server = express();
-        this.jsonParse();
-        this.setupCors();
-        this.routes();
-    }
+  public server: express.Application;
+	private allowOrigin: string[];
 
-    private jsonParse = () :void => {
-        this.server.use(express.json());
-    };
+  constructor(port: string) {
+		this.allowOrigin = [
+			process.env.M2_URL || "",
+			process.env.CLIENT_WB_URL || ""
+		];
+    this.server = express();
+    this.jsonParse();
+    this.setupCors();
+    this.routes();
+		this.authDB();
+		this.startServer(port);
+  }
 
-    private setupCors(): void {
-        this.server.use(cors({
-            origin: [this.ALLOW_M2, this.ALLOW_ALPOSTEL],
-            methods: ["GET", "PUT", "POST", "DELETE"]
-        }));
-    }
+  private jsonParse(): void {
+    this.server.use(express.json());
+  };
 
-    private routes = () :void =>{
-        this.server.use(router);
-    }
+  private setupCors(): void {
+    this.server.use(
+      cors({
+        origin: this.allowOrigin,
+        methods: ["GET", "PUT", "POST", "DELETE"],
+      })
+    );
+  }
 
+  private routes(): void {
+    this.server.use(router);
+  };
+
+	private authDB(): void {
+		authenticate();
+	}
+
+	private startServer(PORT: string): void {
+		this.server.listen(PORT, () => {
+			console.log(`Server running on PORT: ${PORT}`);
+		})
+	}
 }
-
-
 
 export { Server };
