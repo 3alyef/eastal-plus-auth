@@ -2,16 +2,15 @@
   "name": "alpostel-auth-api",
   "description": "",
   "version": "1.5.0",
-  "main": "./dist/index.cjs",
-  "type": "module",
+  "main": "./dist/index.js",
   "scripts": {
     "test": "jest",
     "lint": "eslint .",
     "lint:fix": "npm run lint--fix",
     "dev": "tsx --env-file=.env.development src/index.ts",
-    "dev:watch": "tsx --env-file=.env.development watch ./src/index.ts",
+    "dev:watch": "tsx watch --env-file=.env.development ./src/index.ts",
     "build": "tsup src",
-    "start": "npm run build && node --env-file=.env ./dist/index.cjs"
+    "start": "npm run build && node --env-file=.env ./dist/index.js"
   },
   "author": "Alef A. Araujo",
   "license": "ISC",

@@ -1,14 +1,16 @@
-export interface IUserDetails {
+export interface IAccount {
 	userId: string;
-	firstName: string;
-	lastName: string;
-	dateOfBirth?: Date;
-	lastUpdateIn: string;
+	accountType: "normal" | "premium";
+	createdIn: Date;
+	lastUpdateIn: Date;
 }
 
 export interface IUser {
 	userId: string;
 	email: string;
 	password: string;
-	lastUpdateIn: string;
+	firstName: string;
+	lastName: string;
+	dateOfBirth: Date;
+	lastUpdateIn: Date;
 }
