@@ -7,6 +7,7 @@ import { changePhoto } from "./ChangePhoto/ChangePhoto";
 
 export { loginController, registerController, unregisterController, searchUserController, changePhoto }*/
 
-import RegisterController from "./RegisterController/RegisterController";
-
-export { RegisterController };
+import RegisterController from "./user/RegisterController/RegisterController";
+import LoginController from "./user/LoginController/LoginController";
+import CheckEmailController from "./user/CheckEmailController/CheckEmailController";
+export { RegisterController, LoginController, CheckEmailController };

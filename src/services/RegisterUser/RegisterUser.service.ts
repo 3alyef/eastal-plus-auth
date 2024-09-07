@@ -1,9 +1,10 @@
 import { AccountModel, UserIdModel } from "../../db/models/Models";
-import { IUser } from "../../interfaces/models";
-import { PropsRegister } from "./RegisterUser.interface";
+import { IUser } from "../../interfaces/IModels";
+import { PropsGenerateRandomKey, PropsRegister } from "./IRegisterUser";
 import { certifyUserId, getUserAuth, verifyPassword } from "../Services";
 import encryptData from "../encryptData/encryptData";
-import { StatusCode } from "../../interfaces/status-code";
+import { StatusCode } from "../../interfaces/IStatusCode";
+import { defaultError } from "../../interfaces/IError";
 
 export default class RegisterUser {
   public async init({
@@ -19,17 +20,10 @@ export default class RegisterUser {
         let userData: false | IUser = await getUserAuth(email);
 
         if (userData.valueOf() !== false) {
-          throw new Error("Email já cadastrado");
+          throw { status: StatusCode.CONFLICT, message: "Email já cadastrado" };
         }
 
-        let userId = "";
-        while (true) {
-          userId = this.generateUserId(firstName);
-          let haveEqual = await certifyUserId(userId);
-          if (haveEqual === false) {
-            break;
-          }
-        }
+        let userId = await this.generateUserId();
 
         let passwordEncrypted = await encryptData(password);
 
@@ -43,33 +37,65 @@ export default class RegisterUser {
           );
           return { status: StatusCode.CREATED, message: "CREATED" };
         } else {
-          throw new Error("Erro na encriptação da senha.");
+          throw {
+            status: StatusCode.INTERNAL_SERVER_ERROR,
+            message: "Erro na encriptação da senha.",
+          };
         }
       }
-      throw new Error("Informações incompletas.");
-    } catch (error: any) {
-      console.error(error);
-      return {
-        status: StatusCode.INTERNAL_SERVER_ERROR,
-        message: error || "Erro interno do servidor.",
+      throw {
+        status: StatusCode.BAD_REQUEST,
+        message: "Informações incompletas.",
       };
+    } catch (err) {
+      const error = err as defaultError;
+      console.error(error);
+      return error;
     }
   }
 
-  private generateUserId(fn: string): string {
-    let rdNm = [];
+  private async generateUserId(): Promise<string> {
+    let userId = "";
+    while (true) {
+      let randomKeys: PropsGenerateRandomKey = this.generateRandomKey();
+      userId = `
+				al${randomKeys.alKey}
+				post${randomKeys.postKey}
+				el${randomKeys.elKey}
+			`;
+      userId = userId.trim();
 
-    for (let i = 0; i < 5; i++) {
-      rdNm.push(Math.floor(Math.random() * 5));
+      let haveEqual = await certifyUserId(userId);
+
+      if (haveEqual === false) {
+        break;
+      }
     }
 
-    let userId = `
-			al${rdNm[4]}${fn[0]}${rdNm[1]}
-			post${rdNm[0]}${fn[1]}
-			${rdNm[2]}${rdNm[3]}
-			el
-		`;
-    return userId.toLowerCase().trim();
+    return userId;
+  }
+
+  private generateRandomKey(): PropsGenerateRandomKey {
+    let rdAlf = "abcdefghijklmnopqrstuvwxyz";
+    let rdNm = [];
+    let rdStrings = [];
+    for (let i = 0; i < 3; i++) {
+      rdNm.push(Math.floor(Math.random() * 1000));
+
+      let randomIndex1 = Math.floor(Math.random() * rdAlf.length);
+      let randomIndex2 = Math.floor(Math.random() * rdAlf.length);
+
+      rdStrings.push(
+        `${rdAlf[randomIndex1]}
+				${rdAlf[randomIndex2].toUpperCase()}`
+      );
+    }
+    const keys: PropsGenerateRandomKey = {
+      alKey: `${rdNm[0]}${rdStrings[0]}`,
+      postKey: `${rdNm[1]}${rdStrings[1]}`,
+      elKey: `${rdNm[2]}${rdStrings[2]}`,
+    };
+    return keys;
   }
 
   private async createAccount(

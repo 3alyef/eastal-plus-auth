@@ -1,5 +1,5 @@
 import { UserIdModel } from "../../db/models/Models";
-import { IUser } from "../../interfaces/models";
+import { IUser } from "../../interfaces/IModels";
 
 export default async function getUserAuth(email: string): Promise<false | IUser>{
 	try {

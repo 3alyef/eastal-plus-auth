@@ -1,5 +1,5 @@
 import express from "express";
-import { router } from "./routes/Routes";
+import { router } from "./routes/routes";
 import cors from "cors";
 import { authenticate } from "./db/DB";
 class Server {

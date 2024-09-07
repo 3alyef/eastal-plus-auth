@@ -10,7 +10,9 @@
 /*export { Login, Register, SearchByEmail, Unregister, validateCredentials, EmailLogin, TokenGenerate, changeProfilePhoto, SearchByCostumName };*/
 
 import certifyUserId from "./certifyUserId/certifyUserId";
+import CheckEmail from "./CheckEmail/CheckEmail.service";
 import getUserAuth from "./getUserAuth/getUserAuth";
+import RegisterUser from "./RegisterUser/RegisterUser.service";
 import verifyPassword from "./verifyPassword/verifyPassword";
 
-export { getUserAuth, verifyPassword, certifyUserId };
+export { getUserAuth, verifyPassword, certifyUserId, CheckEmail, RegisterUser };

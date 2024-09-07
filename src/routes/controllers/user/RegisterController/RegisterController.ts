@@ -1,16 +1,14 @@
 import { Request, Response } from "express";
-import RegisterUser from "../../../services/RegisterUser/RegisterUser.service";
+import DefaultController from "../../DefaultController";
+import { RegisterUser } from "../../../../services/Services";
 
-class RegisterController {
-  private req: Request;
-  private res: Response;
+class RegisterController extends DefaultController {
   private register: RegisterUser;
 
   constructor(req: Request, res: Response) {
-    this.req = req;
-    this.res = res;
-    this.start();
+		super(req, res);
     this.register = new RegisterUser();
+		this.start();
   }
 
   private async start(): Promise<void> {

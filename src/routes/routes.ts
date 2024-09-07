@@ -1,5 +1,5 @@
 import { Request, Response, Router } from "express";
-import * as Controll from "./controllers/Controllers";
+import * as controll from "./controllers/controllers";
 import { unregisterMiddleware } from "../middlewares/unregisterMiddleware";
 
 const router: Router = Router();
@@ -17,7 +17,19 @@ router.get("/", (req: Request, res: Response) => {
 
 // registra
 router.post("/register", (req, res) => {
-	new Controll.RegisterController(req, res);
+	new controll.RegisterController(req, res);
+});
+
+// check-email
+
+router.get("/check-email", (req, res) => {
+	new controll.CheckEmailController(req, res);
+})
+
+// login 
+
+router.post("/login", (req, res) => {
+	new controll.LoginController(req, res);
 });
 
 // apaga o registro

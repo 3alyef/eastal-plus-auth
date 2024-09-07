@@ -1,6 +1,6 @@
 import { hash } from "bcrypt";
 import { randomInt } from "node:crypto";
-import { defaultError } from "../../interfaces/error";
+import { defaultError } from "../../interfaces/IError";
 
 export default async function encryptData(data: string): Promise<string | defaultError> {
 	let EncryptData: string;
