@@ -1,18 +1,15 @@
-import { defaultError } from "../../interfaces/IError";
+import { IStatusMsg } from "../../interfaces/IStatusMsg";
 import { StatusCode } from "../../interfaces/IStatusCode";
-import { getUserAuth } from "../Services";
-
-interface GetUserId {
-  userId: string;
-}
+import { getUserIdData } from "../Services";
+import { GetUserId } from "../../routes/controllers/user/UserIdByEmailController/IUserIdByEmailController";
 
 export default class GetUserIdByEmail {
   public async init(
     email: string | undefined
-  ): Promise<{ userId: string } | defaultError> {
+  ): Promise<GetUserId | IStatusMsg> {
     try {
       if (email) {
-        const response = await getUserAuth<GetUserId>(email, "userId");
+        const response = await getUserIdData<GetUserId>(email, "userId");
 
         if ("message" in response) {
           throw response;
@@ -26,8 +23,8 @@ export default class GetUserIdByEmail {
         message: "Informações incompletas.",
       };
     } catch (err) {
-      const error = err as defaultError;
-      console.error(error);
+      const error = err as IStatusMsg;
+      console.error(error.message);
       return error;
     }
   }

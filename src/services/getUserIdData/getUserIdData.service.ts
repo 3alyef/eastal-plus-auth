@@ -1,18 +1,18 @@
-import { UserIdModel } from "../../db/models/Models";
-import { defaultError } from "../../interfaces/IError";
+import { IStatusMsg } from "../../interfaces/IStatusMsg";
 import { IUser } from "../../interfaces/IModels";
 import { StatusCode } from "../../interfaces/IStatusCode";
+import { AccountModel } from "../../db/models/Models";
 
-export default async function getUserAuth<T>(
+export default async function getUserIdData<T>(
   email: string,
-  howMany?: string
-): Promise<defaultError | IUser | T> {
+  howManyAttributes?: string
+): Promise<IStatusMsg | IUser | T> { 
   try {
     let userData: IUser | T | null = null;
-    if (howMany) {
-      userData = await UserIdModel.findOne({ email }, howMany);
+    if (howManyAttributes) {
+      userData = await AccountModel.findOne({ email }, howManyAttributes);
     } else {
-      userData = await UserIdModel.findOne(
+      userData = await AccountModel.findOne(
         { email },
         "_id userId email password lastUpdateIn"
       );
@@ -24,7 +24,7 @@ export default async function getUserAuth<T>(
 
     return userData;
   } catch (err) {
-    const error = err as defaultError;
+    const error = err as IStatusMsg;
     console.log(error.message);
 
     return error;

@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { SearchByCostumName, SearchByEmail } from "../../../services/Services";
-import { imageResp } from "../../../services/SearchByEmail/SeachByEmail.service";
-import { costumName } from "../../../services/Login/Login.service";
+import { imageResp } from "../../../services/SearchByEmail-----/SeachByEmail.service";
+import { costumName } from "../../../services/Login-----/Login.service";
 
 
 

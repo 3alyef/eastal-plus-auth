@@ -1,7 +1,7 @@
-import { defaultError } from "../../interfaces/IError";
+import { IStatusMsg } from "../../interfaces/IStatusMsg";
 import { StatusCode } from "../../interfaces/IStatusCode";
 
-export default function verifyPassword(password: string, repeatPassword: string): void | defaultError {
+export default function verifyPassword(password: string, repeatPassword: string): void | IStatusMsg {
 	if(password !== null && repeatPassword !== null && password === repeatPassword) {
 		return;
 	}

@@ -2,6 +2,8 @@ import { Request, Response } from "express";
 import DefaultController from "../../DefaultController";
 import { GetUserIdByEmail } from "../../../../services/Services";
 import { StatusCode } from "../../../../interfaces/IStatusCode";
+import { IStatusMsg } from "../../../../interfaces/IStatusMsg";
+import { GetUserId } from "./IUserIdByEmailController";
 
 export default class UserIdByEmailController extends DefaultController {
   private getUserIdByEmail: GetUserIdByEmail;
@@ -13,7 +15,7 @@ export default class UserIdByEmailController extends DefaultController {
 
   private async start(): Promise<void> {
     const email = (this.req.query.email as string) || undefined;
-    const userData = await this.getUserIdByEmail.init(email);
+    const userData: GetUserId | IStatusMsg = await this.getUserIdByEmail.init(email);
     if ("userId" in userData) {
       this.res.status(StatusCode.FOUND).json(userData).end();
     } else {

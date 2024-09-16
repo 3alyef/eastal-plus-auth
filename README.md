@@ -1,33 +1,53 @@
 # Alpostel auth api
 
-### Descrição
+## Descrição
 
 Api responsável pela autênticação e cadastro de usuário.
 
+## Models
+
+### UserIdModel
+
+<h4>
+Informações de usuário:
+</h4>
+
+<section>
+
 ```js
+[
+	{
+		userId: "",
+		firstName: "",
+		lastName: "",
+		dateOfBirth: "",
+		updatedAt: "",
+	}
+]
+```
+</section>
 
-// Models: 
+### AccountModel
 
-// UserId
+<h4>
+	Informações básicas sobre a conta do usuário:
+</h4>
+
+<section>
+
+```js
 [
 	{
 		userId: "",
 		email: "",
 		password: "",
-		firstName: "",
-		lastName: "",
-		dateOfBirth: "",
-		lastUpdateIn: "",
+		createdIn: "",
+		accountType: "",
+		updatedAt: "",
+		recoveryEmail: ""
 	}
 ]
 
-// Account
-[
-	{
-		userId: "",
-		createdIn: "",
-		accountType: "",
-		lastUpdateIn: "",
-	}
-]
+// accountType: "default: normal" => normal | pro | admin
 ```
+</section>

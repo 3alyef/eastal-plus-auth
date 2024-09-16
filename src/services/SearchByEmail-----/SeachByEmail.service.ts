@@ -2,8 +2,8 @@ import { dataUserImageModel, userModel } from "../../db/models/Models";
 import {
   searchProfile,
   searchProfileInt,
-} from "../EmailLogin/EmailLogin.service";
-import { costumName, findCostumName } from "../Login/Login.service";
+} from "../EmailLogin-----/EmailLogin.service";
+import { costumName, findCostumName } from "../Login-----/Login.service";
 
 export interface imageResp {
   userImage: string | undefined;

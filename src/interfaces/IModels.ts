@@ -1,17 +1,18 @@
 export interface IAccount {
 	userId: string;
-	accountType: "normal" | "premium";
-	createdIn: Date;
-	lastUpdateIn: Date;
+	email: string;
+	password: string;
+	accountType: "normal" | "pro" | "admin";
+	createdAt: Date;
+	updatedAt: Date;
+	recoveryEmail: string;
 }
 
 export interface IUser {
 	_id?: string;
 	userId: string;
-	email: string;
-	password: string;
 	firstName: string;
 	lastName: string;
 	dateOfBirth: Date;
-	lastUpdateIn: Date;
+	updatedAt: Date;
 }

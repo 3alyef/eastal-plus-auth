@@ -1,10 +1,11 @@
 import { AccountModel, UserIdModel } from "../../db/models/Models";
 import { IUser } from "../../interfaces/IModels";
-import { PropsGenerateRandomKey, PropsRegister } from "./IRegisterUser";
-import { certifyUserId, getUserAuth, verifyPassword } from "../Services";
+import { PropsGenerateRandomKey } from "./IRegisterUser";
+import { certifyUserId, getUserIdData, verifyPassword } from "../Services";
 import encryptData from "../encryptData/encryptData";
 import { StatusCode } from "../../interfaces/IStatusCode";
-import { defaultError } from "../../interfaces/IError";
+import { IStatusMsg } from "../../interfaces/IStatusMsg";
+import { reqBodyRegister } from "../../routes/controllers/user/RegisterController/IRegisterController";
 
 export default class RegisterUser {
   public async init({
@@ -13,14 +14,14 @@ export default class RegisterUser {
     email,
     password,
     repeatPassword,
-  }: PropsRegister): Promise<{ status: StatusCode; message: string }> {
+  }: reqBodyRegister): Promise<IStatusMsg> {
     try {
-      verifyPassword(password, repeatPassword);
       if (firstName && lastName && email && password && repeatPassword) {
-        let userData: defaultError | IUser = await getUserAuth(email);
+				verifyPassword(password, repeatPassword);
+        let userData: IStatusMsg | IUser = await getUserIdData(email);
 
         if ("status" in userData) {
-          throw { status: StatusCode.CONFLICT, message: "Email já cadastrado" };
+          throw userData;
         }
 
         let userId = await this.generateUserId();
@@ -48,7 +49,7 @@ export default class RegisterUser {
         message: "Informações incompletas.",
       };
     } catch (err) {
-      const error = err as defaultError;
+      const error = err as IStatusMsg;
       console.error(error);
       return error;
     }
@@ -105,21 +106,18 @@ export default class RegisterUser {
     password: string,
     userId: string
   ): Promise<void> {
-    let lastUpdateIn = new Date().toISOString();
     let userIdModel = new UserIdModel({
       userId,
       dateOfBirth: "",
       firstName,
       lastName,
-      email,
-      password,
-      lastUpdateIn,
     });
     let userDetailsModel = new AccountModel({
       userId,
-      createdIn: lastUpdateIn,
+      email,
+      password,
       accountType: "normal",
-      lastUpdateIn,
+      recoveryEmail: "",
     });
     await userIdModel.save();
     await userDetailsModel.save();

@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import DefaultController from "../../DefaultController";
 import { CheckEmail } from "../../../../services/Services";
-import { defaultError } from "../../../../interfaces/IError";
+import { IStatusMsg } from "../../../../interfaces/IStatusMsg";
 import { IUser } from "../../../../interfaces/IModels";
 import { StatusCode } from "../../../../interfaces/IStatusCode";
 
@@ -14,8 +14,8 @@ export default class CheckEmailController extends DefaultController {
 	}
 
 	private async start(): Promise<void> {
-
-		let userData: IUser | defaultError = await this.CheckEmail.init(this.req);
+		const email = this.req.query.email as string | undefined;
+		let userData: IUser | IStatusMsg = await this.CheckEmail.init(email);
 		
 		if("status" in userData){
 			const { status, message } = userData;

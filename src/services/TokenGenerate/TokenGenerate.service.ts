@@ -1,4 +1,4 @@
-import { searchProfileInt } from "../EmailLogin/EmailLogin.service";
+import { searchProfileInt } from "../EmailLogin-----/EmailLogin.service";
 import * as jwt from "jsonwebtoken";
 
 class TokenGenerate {

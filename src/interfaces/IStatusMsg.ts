@@ -1,6 +1,6 @@
 import { StatusCode } from "./IStatusCode";
 
-export interface defaultError {
+export interface IStatusMsg {
 	message: string,
 	status: StatusCode
 }
