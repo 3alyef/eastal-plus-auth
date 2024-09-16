@@ -6,6 +6,7 @@ export interface IAccount {
 }
 
 export interface IUser {
+	_id?: string;
 	userId: string;
 	email: string;
 	password: string;

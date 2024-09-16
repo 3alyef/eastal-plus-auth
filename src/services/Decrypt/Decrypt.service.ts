@@ -1,4 +1,4 @@
-const crypto = require("crypto");
+import crypto from "crypto";
 export function decrypt(data: string, SECURE: string, iv: Buffer): string {
     
     const decipher = crypto.createDecipheriv('aes-256-cbc', SECURE, iv);

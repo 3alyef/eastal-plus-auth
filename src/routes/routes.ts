@@ -1,6 +1,5 @@
 import { Request, Response, Router } from "express";
 import * as controll from "./controllers/controllers";
-import { unregisterMiddleware } from "../middlewares/unregisterMiddleware";
 
 const router: Router = Router();
 
@@ -31,6 +30,17 @@ router.get("/check-email", (req, res) => {
 router.post("/login", (req, res) => {
 	new controll.LoginController(req, res);
 });
+
+// busca um usuário pelo email
+
+router.get("/userid-by-email", (req, res) => {
+	new controll.UserIdByEmailController(req, res);
+});
+
+
+router.post("/unregister", (req, res) => {
+	new controll.UnregisterController(req, res);
+})
 
 // apaga o registro
 /*router.post(

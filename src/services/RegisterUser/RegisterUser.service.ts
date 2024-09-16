@@ -17,9 +17,9 @@ export default class RegisterUser {
     try {
       verifyPassword(password, repeatPassword);
       if (firstName && lastName && email && password && repeatPassword) {
-        let userData: false | IUser = await getUserAuth(email);
+        let userData: defaultError | IUser = await getUserAuth(email);
 
-        if (userData.valueOf() !== false) {
+        if ("status" in userData) {
           throw { status: StatusCode.CONFLICT, message: "Email já cadastrado" };
         }
 
@@ -27,12 +27,12 @@ export default class RegisterUser {
 
         let passwordEncrypted = await encryptData(password);
 
-        if (passwordEncrypted.valueOf() === "string") {
+        if (passwordEncrypted === "string") {
           await this.createAccount(
             firstName,
             lastName,
             email,
-            password,
+            passwordEncrypted,
             userId
           );
           return { status: StatusCode.CREATED, message: "CREATED" };

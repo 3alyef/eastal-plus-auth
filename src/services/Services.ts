@@ -11,8 +11,10 @@
 
 import certifyUserId from "./certifyUserId/certifyUserId";
 import CheckEmail from "./CheckEmail/CheckEmail.service";
-import getUserAuth from "./getUserAuth/getUserAuth";
+import getUserAuth from "./getUserAuth/getUserAuth.service";
+import GetUserIdByEmail from "./GetUserIdByEmail/GetUserIdByEmail.service";
 import RegisterUser from "./RegisterUser/RegisterUser.service";
-import verifyPassword from "./verifyPassword/verifyPassword";
+import UnregisterUser from "./UnregisterUser/UnregisterUser.service";
+import verifyPassword from "./verifyPassword/verifyPassword.service";
 
-export { getUserAuth, verifyPassword, certifyUserId, CheckEmail, RegisterUser };
+export { getUserAuth, verifyPassword, certifyUserId, CheckEmail, RegisterUser, GetUserIdByEmail, UnregisterUser };

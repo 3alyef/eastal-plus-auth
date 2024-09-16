@@ -1,22 +1,24 @@
+import { Request } from "express";
 import { defaultError } from "../../interfaces/IError";
 import { IUser } from '../../interfaces/IModels';
 import { StatusCode } from "../../interfaces/IStatusCode";
 import { getUserAuth } from "../Services";
 
 export default class CheckEmail {
-	public async init(email: string): Promise<IUser | defaultError> {
+	public async init(req: Request): Promise<IUser | defaultError> {
 		try {
-			if(email) {
-				const IUserData: false | IUser = await getUserAuth(email);
+			const email = req.query.email as string | undefined;
+			if(typeof email === "string") {
+				const IUserData: defaultError | IUser = await getUserAuth(email);
 
-				if(IUserData !== false) {
-					return IUserData;
+				if("status" in IUserData) {
+					throw {
+						status: StatusCode.NOT_FOUND,
+						message: "Email ausente na base de dados."
+					}
 				}
 
-				throw {
-					status: StatusCode.NOT_FOUND,
-					message: "Email ausente na base de dados."
-				}
+				return IUserData;
 			}
 
 			throw {

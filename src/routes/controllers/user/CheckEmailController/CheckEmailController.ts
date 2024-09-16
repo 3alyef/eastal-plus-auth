@@ -14,15 +14,14 @@ export default class CheckEmailController extends DefaultController {
 	}
 
 	private async start(): Promise<void> {
-		const { email } = this.req.body;
 
-		let response: IUser | defaultError = await this.CheckEmail.init(email);
+		let userData: IUser | defaultError = await this.CheckEmail.init(this.req);
 		
-		if("status" in response){
-			const { status, message } = response;
+		if("status" in userData){
+			const { status, message } = userData;
 			this.res.status(status).send(message).end();
 		} else {
-			this.res.status(StatusCode.FOUND).json(response).end();
+			this.res.status(StatusCode.FOUND).json(userData).end();
 		}
 	}
 }
