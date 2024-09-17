@@ -20,7 +20,7 @@ export default class CheckEmailController extends DefaultController {
 			const { status, message } = userData;
 			this.res.status(status).send(message).end();
 		} else {
-			this.res.status(StatusCode.FOUND).json(userData).end();
+			this.res.status(StatusCode.OK).json(userData).end();
 		}
 	}
 }

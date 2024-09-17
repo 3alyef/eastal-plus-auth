@@ -1,10 +1,10 @@
 import { IStatusMsg } from "../../interfaces/IStatusMsg";
-import { IAccount } from '../../interfaces/IModels';
+import { CheckEmailRes, IAccount } from '../../interfaces/IModels';
 import { StatusCode } from "../../interfaces/IStatusCode";
 import { getUserIdData } from "../Services";
 
 export default class CheckEmail {
-	public async init(email: string | undefined): Promise<IAccount | IStatusMsg> {
+	public async init(email: string | undefined): Promise<CheckEmailRes | IStatusMsg> {
 		try {
 			if(typeof email === "string") {
 				const IUserData: IStatusMsg | IAccount = await getUserIdData(email);
@@ -13,7 +13,12 @@ export default class CheckEmail {
 					throw IUserData;
 				}
 
-				return IUserData;
+				return {
+					email,
+					accountType: IUserData.accountType,
+					createdAt: IUserData.createdAt,
+					updatedAt: IUserData.updatedAt
+				};
 			}
 
 			throw {

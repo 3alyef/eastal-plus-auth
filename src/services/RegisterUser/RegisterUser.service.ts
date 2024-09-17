@@ -21,28 +21,31 @@ export default class RegisterUser {
         let userData: IStatusMsg | IAccount = await getUserIdData(email);
 
         if ("status" in userData) {
-          throw userData;
+					let userId = await this.generateUserId();
+
+					let passwordEncrypted = await encryptData(password);
+
+					if (typeof passwordEncrypted === "string") {
+						await this.createAccount(
+							firstName,
+							lastName,
+							email,
+							passwordEncrypted,
+							userId
+						);
+						return { status: StatusCode.CREATED, message: "CREATED" };
+					} else {
+						throw {
+							status: StatusCode.INTERNAL_SERVER_ERROR,
+							message: "Erro na encriptação da senha.",
+						};
+					}
         }
 
-        let userId = await this.generateUserId();
-
-        let passwordEncrypted = await encryptData(password);
-
-        if (passwordEncrypted === "string") {
-          await this.createAccount(
-            firstName,
-            lastName,
-            email,
-            passwordEncrypted,
-            userId
-          );
-          return { status: StatusCode.CREATED, message: "CREATED" };
-        } else {
-          throw {
-            status: StatusCode.INTERNAL_SERVER_ERROR,
-            message: "Erro na encriptação da senha.",
-          };
-        }
+        throw {
+					message: "Email já cadastrado no sistema",
+					status: StatusCode.CONFLICT
+				}
       }
       throw {
         status: StatusCode.BAD_REQUEST,
@@ -59,11 +62,7 @@ export default class RegisterUser {
     let userId = "";
     while (true) {
       let randomKeys: PropsGenerateRandomKey = this.generateRandomKey();
-      userId = `
-				al${randomKeys.alKey}
-				post${randomKeys.postKey}
-				el${randomKeys.elKey}
-			`;
+      userId = `al${randomKeys.alKey}post${randomKeys.postKey}el${randomKeys.elKey}`;
       userId = userId.trim();
 
       let haveEqual = await certifyUserId(userId);
@@ -87,8 +86,7 @@ export default class RegisterUser {
       let randomIndex2 = Math.floor(Math.random() * rdAlf.length);
 
       rdStrings.push(
-        `${rdAlf[randomIndex1]}
-				${rdAlf[randomIndex2].toUpperCase()}`
+        `${rdAlf[randomIndex1]}${rdAlf[randomIndex2].toUpperCase()}`
       );
     }
     const keys: PropsGenerateRandomKey = {
@@ -108,7 +106,6 @@ export default class RegisterUser {
   ): Promise<void> {
     let userIdModel = new UserIdModel({
       userId,
-      dateOfBirth: "",
       firstName,
       lastName,
     });

@@ -1,10 +1,13 @@
-export interface IAccount {
-	userId: string;
+export interface CheckEmailRes {
 	email: string;
-	password: string;
 	accountType: "normal" | "pro";
 	createdAt: Date;
 	updatedAt: Date;
+}
+
+export interface IAccount extends CheckEmailRes {
+	userId: string;
+	password: string;
 	recoveryEmail: string;
 }
 
