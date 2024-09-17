@@ -51,3 +51,14 @@ Informações de usuário:
 // accountType: "default: normal" => normal | pro | admin
 ```
 </section>
+
+<h3>.env keys:</h3>
+<div>
+
+DB_URL=""
+M2_URL=""
+CLIENT_WB_URL=""
+TOKEN_KEY=""
+UNREGISTER_KEY=""
+
+</div>

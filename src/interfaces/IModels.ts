@@ -2,7 +2,7 @@ export interface IAccount {
 	userId: string;
 	email: string;
 	password: string;
-	accountType: "normal" | "pro" | "admin";
+	accountType: "normal" | "pro";
 	createdAt: Date;
 	updatedAt: Date;
 	recoveryEmail: string;

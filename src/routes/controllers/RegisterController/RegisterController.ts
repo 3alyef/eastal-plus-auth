@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import DefaultController from "../../DefaultController";
-import { RegisterUser } from "../../../../services/Services";
 import { reqBodyRegister } from "./IRegisterController";
+import { RegisterUser } from "../../../services/Services";
+import DefaultController from "../DefaultController";
 
 class RegisterController extends DefaultController {
   private register: RegisterUser;

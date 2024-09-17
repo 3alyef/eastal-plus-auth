@@ -1,6 +1,6 @@
-import RegisterController from "./user/RegisterController/RegisterController";
-import LoginController from "./user/LoginController/LoginController";
-import CheckEmailController from "./user/CheckEmailController/CheckEmailController";
-import UserIdByEmailController from "./user/UserIdByEmailController/UserIdByEmailController";
-import UnregisterController from "./user/UnregisterController/UnregisterController";
+import RegisterController from "./RegisterController/RegisterController";
+import LoginController from "./LoginController/LoginController";
+import CheckEmailController from "./CheckEmailController/CheckEmailController";
+import UserIdByEmailController from "./UserIdByEmailController/UserIdByEmailController";
+import UnregisterController from "./UnregisterController/UnregisterController";
 export { RegisterController, LoginController, CheckEmailController, UserIdByEmailController, UnregisterController };

@@ -1,13 +1,19 @@
 import { Request, Response } from "express";
-import { Unregister } from "../../../services/Services";
-import { unregisterRequest } from "../../../interfaces/unregister.interface";
+import DefaultController from "../DefaultController";
+import { UnregisterUser } from "../../../services/Services";
 
-class UnregisterController {
-  postUnregister(req: Request<{ body: unregisterRequest }>, res: Response) {
-    new Unregister().initialize(req, res);
-  }
+export default class UnregisterController extends DefaultController {
+	private unregisterService: UnregisterUser;
+	constructor(req: Request, res: Response) {
+		super(req, res);
+		this.unregisterService = new UnregisterUser();
+		this.start();
+	}
+
+	private async start() {
+		
+		const { status, message } = await this.unregisterService.init(this.req);
+
+		this.res.status(status).send(message).end();
+	}
 }
-
-const unregisterController = new UnregisterController();
-
-export { unregisterController };

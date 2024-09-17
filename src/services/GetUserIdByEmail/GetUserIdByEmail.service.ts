@@ -1,7 +1,7 @@
 import { IStatusMsg } from "../../interfaces/IStatusMsg";
 import { StatusCode } from "../../interfaces/IStatusCode";
 import { getUserIdData } from "../Services";
-import { GetUserId } from "../../routes/controllers/user/UserIdByEmailController/IUserIdByEmailController";
+import { GetUserId } from "../../routes/controllers/UserIdByEmailController/IUserIdByEmailController";
 
 export default class GetUserIdByEmail {
   public async init(

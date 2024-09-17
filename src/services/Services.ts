@@ -5,6 +5,9 @@ import GetUserIdByEmail from "./GetUserIdByEmail/GetUserIdByEmail.service";
 import RegisterUser from "./RegisterUser/RegisterUser.service";
 import UnregisterUser from "./UnregisterUser/UnregisterUser.service";
 import verifyPassword from "./verifyPassword/verifyPassword.service";
-import { LoginUser } from "./LoginUser/LoginUser.service";
+import LoginUser from "./LoginUser/LoginUser.service";
+import validatePassword from "./validatePassword/validatePassword.service";
+import tokenGenerator from "./tokenGenerator/tokenGenerator.service";
+import tokenValidator from "./tokenValidator/tokenValidator.service";
 
-export { getUserIdData, verifyPassword, certifyUserId, CheckEmail, RegisterUser, GetUserIdByEmail, UnregisterUser, LoginUser };
+export { getUserIdData, verifyPassword, certifyUserId, CheckEmail, RegisterUser, GetUserIdByEmail, UnregisterUser, LoginUser, validatePassword, tokenGenerator, tokenValidator };

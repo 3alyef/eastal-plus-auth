@@ -1,13 +1,13 @@
 import { IStatusMsg } from "../../interfaces/IStatusMsg";
-import { IUser } from '../../interfaces/IModels';
+import { IAccount } from '../../interfaces/IModels';
 import { StatusCode } from "../../interfaces/IStatusCode";
 import { getUserIdData } from "../Services";
 
 export default class CheckEmail {
-	public async init(email: string | undefined): Promise<IUser | IStatusMsg> {
+	public async init(email: string | undefined): Promise<IAccount | IStatusMsg> {
 		try {
 			if(typeof email === "string") {
-				const IUserData: IStatusMsg | IUser = await getUserIdData(email);
+				const IUserData: IStatusMsg | IAccount = await getUserIdData(email);
 
 				if("status" in IUserData) {
 					throw IUserData;

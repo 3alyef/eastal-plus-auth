@@ -1,11 +1,11 @@
 import { AccountModel, UserIdModel } from "../../db/models/Models";
-import { IUser } from "../../interfaces/IModels";
+import { IAccount } from "../../interfaces/IModels";
 import { PropsGenerateRandomKey } from "./IRegisterUser";
 import { certifyUserId, getUserIdData, verifyPassword } from "../Services";
 import encryptData from "../encryptData/encryptData";
 import { StatusCode } from "../../interfaces/IStatusCode";
 import { IStatusMsg } from "../../interfaces/IStatusMsg";
-import { reqBodyRegister } from "../../routes/controllers/user/RegisterController/IRegisterController";
+import { reqBodyRegister } from "../../routes/controllers/RegisterController/IRegisterController";
 
 export default class RegisterUser {
   public async init({
@@ -18,7 +18,7 @@ export default class RegisterUser {
     try {
       if (firstName && lastName && email && password && repeatPassword) {
 				verifyPassword(password, repeatPassword);
-        let userData: IStatusMsg | IUser = await getUserIdData(email);
+        let userData: IStatusMsg | IAccount = await getUserIdData(email);
 
         if ("status" in userData) {
           throw userData;

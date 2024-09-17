@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
-import DefaultController from "../../DefaultController";
-import { GetUserIdByEmail } from "../../../../services/Services";
-import { StatusCode } from "../../../../interfaces/IStatusCode";
-import { IStatusMsg } from "../../../../interfaces/IStatusMsg";
+import DefaultController from "../DefaultController";
+import { GetUserIdByEmail } from "../../../services/Services";
+import { StatusCode } from "../../../interfaces/IStatusCode";
+import { IStatusMsg } from "../../../interfaces/IStatusMsg";
 import { GetUserId } from "./IUserIdByEmailController";
 
 export default class UserIdByEmailController extends DefaultController {

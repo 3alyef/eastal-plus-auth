@@ -1,21 +1,20 @@
 import { IStatusMsg } from "../../interfaces/IStatusMsg";
-import { IUser } from "../../interfaces/IModels";
+import { IAccount } from "../../interfaces/IModels";
 import { StatusCode } from "../../interfaces/IStatusCode";
 import { AccountModel } from "../../db/models/Models";
 
 export default async function getUserIdData<T>(
   email: string,
   howManyAttributes?: string
-): Promise<IStatusMsg | IUser | T> { 
+): Promise<IStatusMsg | T | IAccount> { 
   try {
-    let userData: IUser | T | null = null;
+    let userData: IAccount | T | null = null;
     if (howManyAttributes) {
-      userData = await AccountModel.findOne({ email }, howManyAttributes);
+      userData = await AccountModel.findOne({ email }, howManyAttributes) as T;
     } else {
       userData = await AccountModel.findOne(
-        { email },
-        "_id userId email password lastUpdateIn"
-      );
+        { email }
+      ) as IAccount;
     }
 
     if (userData === null) {
