@@ -3,10 +3,9 @@ import * as controll from "./controllers/controllers";
 
 const router: Router = Router();
 
-router.get("/", (req: Request, res: Response) => {
-  console.log("usuário novo...");
-  res.send("Hello! Welcome to Al authentication!");
-});
+router.get("/", async (req: Request, res: Response) => {
+	new controll.HomeController(req, res);
+}); // OK
 
 router.post("/auth/register", (req, res) => {
 	new controll.RegisterController(req, res);

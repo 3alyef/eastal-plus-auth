@@ -17,6 +17,10 @@ export default class ForgotPassword {
 				}
 
 				const { userId } = response;
+				return {
+					message: "oi",
+					status: StatusCode.OK
+				}
 			} else {
 				throw {
 					message: "Email incompleto ou faltando.",

@@ -1,4 +1,7 @@
 import  nodemailer, { Transporter } from "nodemailer";
+import { promises as fs } from 'fs';
+import Handlebars from "handlebars";
+import path from "path";
 
 class EmailSender {
 	private transporter: Transporter;
@@ -19,14 +22,22 @@ class EmailSender {
 		});
 	}
 
-	public async sendMsg(to: string[], subject: string) {
+	public async sendMsg<T>(to: string[], subject: string, htmlURL: string, dataReplace: T) {
 		try {
+			const templatePath = path.join(__dirname, htmlURL);
+
+			const template = await fs.readFile(templatePath, 'utf-8');
+
+			const compiledTemplate = Handlebars.compile(template);
+
+			const htmlContent = compiledTemplate(dataReplace);
+			
 			await this.transporter.sendMail({
-				from: `Al PostEl Corporation <${this.emailFrom}>`,
+				from: `East Al Plus Corporation <${this.emailFrom}>`,
 				to,
 				subject: subject || "Autênticação de usuário",
-				html: `<h1>Al PostEl Corporation</h1>`,
-				text: "Al PostEl Corporation",
+				html: htmlContent,
+				text: "East Al Plus Corporation",
 			});
 
 			console.log("Envio bem sucedido");

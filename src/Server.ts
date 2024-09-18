@@ -2,6 +2,7 @@ import express from "express";
 import { router } from "./routes/routes";
 import cors from "cors";
 import { authenticate } from "./db/DB";
+import path from "path";
 class Server {
   public server: express.Application;
 	private allowOrigin: string[];
@@ -16,6 +17,7 @@ class Server {
     this.setupCors();
     this.routes();
 		this.authDB();
+		this.startCSS();
 		this.startServer(port);
   }
 
@@ -40,6 +42,9 @@ class Server {
 		authenticate();
 	}
 
+	private startCSS() {
+		this.server.use(express.static(path.join(__dirname, '../public')));
+	}
 	private startServer(PORT: string): void {
 		this.server.listen(PORT, () => {
 			console.log(`Server running on PORT: ${PORT}`);
