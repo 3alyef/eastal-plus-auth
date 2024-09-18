@@ -6,7 +6,7 @@ import { getUserIdData } from "../Services";
 export default class CheckEmail {
 	public async init(email: string | undefined): Promise<CheckEmailRes | IStatusMsg> {
 		try {
-			if(typeof email === "string") {
+			if(email) {
 				const IUserData: IStatusMsg | IAccount = await getUserIdData(email);
 
 				if("status" in IUserData) {

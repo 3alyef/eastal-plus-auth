@@ -9,5 +9,6 @@ import LoginUser from "./LoginUser/LoginUser.service";
 import validatePassword from "./validatePassword/validatePassword.service";
 import tokenGenerator from "./tokenGenerator/tokenGenerator.service";
 import tokenValidator from "./tokenValidator/tokenValidator.service";
+import ForgotPassword from "./ForgotPassword/ForgotPassword.service";
 
-export { getUserIdData, verifyPassword, certifyUserId, CheckEmail, RegisterUser, GetUserIdByEmail, UnregisterUser, LoginUser, validatePassword, tokenGenerator, tokenValidator };
+export { getUserIdData, verifyPassword, certifyUserId, CheckEmail, RegisterUser, GetUserIdByEmail, UnregisterUser, LoginUser, validatePassword, tokenGenerator, tokenValidator, ForgotPassword };

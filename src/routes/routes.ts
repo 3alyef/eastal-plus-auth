@@ -8,25 +8,29 @@ router.get("/", (req: Request, res: Response) => {
   res.send("Hello! Welcome to Al authentication!");
 });
 
-router.post("/register", (req, res) => {
+router.post("/auth/register", (req, res) => {
 	new controll.RegisterController(req, res);
 }); // OK
 
-router.post("/login", (req, res) => {
+router.post("/auth/login", (req, res) => {
 	new controll.LoginController(req, res);
 });
 
-router.get("/check-email", (req, res) => {
+router.get("/auth/check-email", (req, res) => {
 	new controll.CheckEmailController(req, res);
 }) // OK
 
-router.get("/userid-by-email", (req, res) => {
+router.get("/auth/userid-by-email", (req, res) => {
 	new controll.UserIdByEmailController(req, res);
 }); // OK
 
-router.post("/unregister", (req, res) => {
+router.post("/auth/unregister", (req, res) => {
 	new controll.UnregisterController(req, res);
 });
+
+router.post("/auth/forgot-password", (req, res) => {
+	new controll.ForgotPasswordController(req, res);
+})
 
 export { router };
 /*
