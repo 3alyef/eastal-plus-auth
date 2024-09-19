@@ -1,11 +1,12 @@
-import { AccountModel, UserIdModel } from "../../db/models/Models";
+import { AccountModel, UserAboutModel } from "../../db/models/Models";
 import { IAccount } from "../../interfaces/IModels";
 import { PropsGenerateRandomKey } from "./IRegisterUser";
-import { certifyUserId, getUserIdData, verifyPassword } from "../Services";
+import { certifyUserId, getAccountData, verifyPassword } from "../Services";
 import encryptData from "../encryptData/encryptData";
 import { StatusCode } from "../../interfaces/IStatusCode";
 import { IStatusMsg } from "../../interfaces/IStatusMsg";
 import { reqBodyRegister } from "../../routes/controllers/RegisterController/IRegisterController";
+import { Locale } from "../../views/i18n-views";
 
 export default class RegisterUser {
   public async init({
@@ -14,11 +15,12 @@ export default class RegisterUser {
     email,
     password,
     repeatPassword,
+		language
   }: reqBodyRegister): Promise<IStatusMsg> {
     try {
       if (firstName && lastName && email && password && repeatPassword) {
 				verifyPassword(password, repeatPassword);
-        let userData: IStatusMsg | IAccount = await getUserIdData(email);
+        let userData: IStatusMsg | IAccount = await getAccountData(email);
 
         if ("status" in userData) {
 					let userId = await this.generateUserId();
@@ -31,7 +33,8 @@ export default class RegisterUser {
 							lastName,
 							email,
 							passwordEncrypted,
-							userId
+							userId,
+							language || "en"
 						);
 						return { status: StatusCode.CREATED, message: "CREATED" };
 					} else {
@@ -102,12 +105,14 @@ export default class RegisterUser {
     lastName: string,
     email: string,
     password: string,
-    userId: string
+    userId: string,
+		language: Locale
   ): Promise<void> {
-    let userIdModel = new UserIdModel({
+    let userIdModel = new UserAboutModel({
       userId,
       firstName,
       lastName,
+			language
     });
     let userDetailsModel = new AccountModel({
       userId,
@@ -120,7 +125,7 @@ export default class RegisterUser {
     await userDetailsModel.save();
 
     if (!userIdModel || !userDetailsModel) {
-      await UserIdModel.deleteOne({ userId });
+      await UserAboutModel.deleteOne({ userId });
       await userDetailsModel.deleteOne({ userId });
 
       throw {

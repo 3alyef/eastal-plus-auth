@@ -1,8 +1,8 @@
 import { Request } from "express";
 import { IStatusMsg } from "../../interfaces/IStatusMsg";
-import { getUserIdData, tokenValidator, validatePassword } from "../Services";
+import { getAccountData, tokenValidator, validatePassword } from "../Services";
 import { StatusCode } from "../../interfaces/IStatusCode";
-import { AccountModel, UserIdModel } from "../../db/models/Models";
+import { AccountModel, UserAboutModel } from "../../db/models/Models";
 import globalsVar from "../../utils/Global";
 export default class UnregisterUser {
 	private TOKEN_KEY_UNREGISTER: string;
@@ -21,7 +21,7 @@ export default class UnregisterUser {
 
 			const {email, password} = resToken;
 			
-			const response = await getUserIdData<{ password: string, userId: string }>(email, "password userId");
+			const response = await getAccountData<{ password: string, userId: string }>(email, "password userId");
 
 			if("status" in response) {
 				throw response;
@@ -61,13 +61,13 @@ export default class UnregisterUser {
 		try {
 			globalsVar.setUserIds((prev) => [...prev, userId]);
 			const AccountModelBackup = await AccountModel.find({ userId });
-			const UserIdModelBackup = await UserIdModel.find({ userId });
+			const UserIdModelBackup = await UserAboutModel.find({ userId });
 			const deleteAccountData = await AccountModel.deleteOne({ userId, email, password: refPassword });
-			const deleteUserIdData = await UserIdModel.deleteOne({ userId });
+			const deleteUserIdData = await UserAboutModel.deleteOne({ userId });
 
 			if(deleteAccountData.deletedCount <= 0 || deleteUserIdData.deletedCount <= 0) {
 				if(deleteAccountData.deletedCount <= 0) {
-					let returnUserId = new UserIdModel(UserIdModelBackup);
+					let returnUserId = new UserAboutModel(UserIdModelBackup);
 					await returnUserId.save();
 				} else {
 					let returnAccount = new AccountModel(AccountModelBackup)

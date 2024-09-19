@@ -1,7 +1,7 @@
 import { IStatusMsg } from "../../interfaces/IStatusMsg";
 import { StatusCode } from "../../interfaces/IStatusCode";
-import { getUserIdData } from "../Services";
 import { GetUserId } from "../../routes/controllers/UserIdByEmailController/IUserIdByEmailController";
+import { getAccountData } from "../Services";
 
 export default class GetUserIdByEmail {
   public async init(
@@ -9,7 +9,7 @@ export default class GetUserIdByEmail {
   ): Promise<GetUserId | IStatusMsg> {
     try {
       if (email) {
-        const response = await getUserIdData<GetUserId>(email, "userId");
+        const response = await getAccountData<GetUserId>(email, "userId");
 
         if ("message" in response) {
           throw response;

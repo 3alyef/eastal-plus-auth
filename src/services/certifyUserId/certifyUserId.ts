@@ -1,9 +1,10 @@
-import { UserIdModel } from "../../db/models/Models";
+
+import { UserAboutModel } from "../../db/models/Models";
 import globalsVar from "../../utils/Global";
 
 export default async function certifyUserId(userId: string): Promise<boolean> {
 	try {
-		const certUserId = await UserIdModel.findOne({ userId });
+		const certUserId = await UserAboutModel.findOne({ userId });
 		const userIdNotAv = globalsVar.getUserIds();
 		const includeInNotAv = userIdNotAv.filter(el => el === userId);
 		if(certUserId === null && includeInNotAv.length === 0) {

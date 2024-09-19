@@ -1,4 +1,4 @@
 import AccountModel from "./AccountModel/AccountModel";
-import UserIdModel from "./UserIdModel/UserIdModel";
+import UserAboutModel from "./UserAboutModel/UserAboutModel";
 
-export { AccountModel, UserIdModel };
+export { AccountModel, UserAboutModel };

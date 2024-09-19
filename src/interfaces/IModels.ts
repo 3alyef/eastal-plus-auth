@@ -1,3 +1,5 @@
+import { Locale } from "../views/i18n-views";
+
 export interface CheckEmailRes {
 	email: string;
 	accountType: "normal" | "pro";
@@ -11,11 +13,12 @@ export interface IAccount extends CheckEmailRes {
 	recoveryEmail: string;
 }
 
-export interface IUser {
+export interface IUserAbout {
 	_id?: string;
 	userId: string;
 	firstName: string;
 	lastName: string;
 	dateOfBirth: Date;
 	updatedAt: Date;
+	language: Locale
 }

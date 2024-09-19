@@ -33,11 +33,11 @@ class EmailSender {
 			const htmlContent = compiledTemplate(dataReplace);
 			
 			await this.transporter.sendMail({
-				from: `East Al Plus Corporation <${this.emailFrom}>`,
+				from: `Eastal+ Corporation <${this.emailFrom}>`,
 				to,
 				subject: subject || "Autênticação de usuário",
 				html: htmlContent,
-				text: "East Al Plus Corporation",
+				text: "Eastal+ Corporation",
 			});
 
 			console.log("Envio bem sucedido");

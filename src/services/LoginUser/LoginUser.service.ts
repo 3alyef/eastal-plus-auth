@@ -1,8 +1,8 @@
 import { StatusCode } from "../../interfaces/IStatusCode";
 import { IStatusMsg } from "../../interfaces/IStatusMsg";
 import { reqBodyLogin } from "../../routes/controllers/LoginController/ILoginController";
-import { getUserIdData, tokenGenerator, validatePassword } from "../Services";
-import { AccountLogin, AccountDataRes } from "./ILoginUser";
+import { getAccountData, tokenGenerator, validatePassword } from "../Services";
+import { IAccountLogin, IAccountDataRes } from "./ILoginUser";
 
 export default class LoginUser {
 	public async init(reqBody: reqBodyLogin): Promise<IStatusMsg | { token: string }> {
@@ -10,7 +10,7 @@ export default class LoginUser {
 			const { email, password } = reqBody;
 
 			if(email && password) {
-				const accountLogin = await getUserIdData<AccountLogin>(email, "userId accountType password");
+				const accountLogin = await getAccountData<IAccountLogin>(email, "userId accountType password");
 
 				if("status" in accountLogin) {
 					throw accountLogin;
@@ -18,7 +18,7 @@ export default class LoginUser {
 					const checkPass = await validatePassword(password, accountLogin.password);
 
 					if(checkPass === true) {
-						const tokenRes = await tokenGenerator<AccountDataRes>({
+						const tokenRes = await tokenGenerator<IAccountDataRes>({
 							userId: accountLogin.userId,
 							accountType: accountLogin.accountType,
 							email
