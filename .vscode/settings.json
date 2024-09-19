@@ -1,3 +1,4 @@
 {
-	"workbench.settings.openDefaultSettings": false
+	"workbench.settings.openDefaultSettings": false,
+	"css.validate": false
 }
