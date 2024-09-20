@@ -1,4 +1,4 @@
-import { Locale } from "../../../views/i18n-views";
+import { Locale } from "../../../views/lib/locale-views";
 
 export interface reqBodyRegister {
 	firstName: string;

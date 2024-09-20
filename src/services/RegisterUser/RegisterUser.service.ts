@@ -6,7 +6,7 @@ import encryptData from "../encryptData/encryptData";
 import { StatusCode } from "../../interfaces/IStatusCode";
 import { IStatusMsg } from "../../interfaces/IStatusMsg";
 import { reqBodyRegister } from "../../routes/controllers/RegisterController/IRegisterController";
-import { Locale } from "../../views/i18n-views";
+import { Locale } from "../../views/lib/locale-views";
 
 export default class RegisterUser {
   public async init({

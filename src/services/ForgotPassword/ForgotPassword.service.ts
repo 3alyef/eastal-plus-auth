@@ -1,6 +1,6 @@
 import { StatusCode } from "../../interfaces/IStatusCode";
 import { IStatusMsg } from "../../interfaces/IStatusMsg";
-import { Locale } from "../../views/i18n-views";
+import { Locale } from "../../views/lib/locale-views";
 import { getUserIdData } from "../Services";
 
 export default class ForgotPassword {
