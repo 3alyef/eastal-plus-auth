@@ -11,6 +11,7 @@ export interface IAccount extends CheckEmailRes {
 	userId: string;
 	password: string;
 	recoveryEmail: string;
+	language: Locale
 }
 
 export interface IUserAbout {
@@ -20,5 +21,4 @@ export interface IUserAbout {
 	lastName: string;
 	dateOfBirth: Date;
 	updatedAt: Date;
-	language: Locale
 }

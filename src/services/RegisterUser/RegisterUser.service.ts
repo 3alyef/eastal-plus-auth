@@ -112,7 +112,7 @@ export default class RegisterUser {
       userId,
       firstName,
       lastName,
-			language
+			
     });
     let userDetailsModel = new AccountModel({
       userId,
@@ -120,6 +120,7 @@ export default class RegisterUser {
       password,
       accountType: "normal",
       recoveryEmail: "",
+			language
     });
     await userIdModel.save();
     await userDetailsModel.save();

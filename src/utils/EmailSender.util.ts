@@ -2,6 +2,10 @@ import  nodemailer, { Transporter } from "nodemailer";
 import { promises as fs } from 'fs';
 import Handlebars from "handlebars";
 import path from "path";
+import { Subject } from "../interfaces/IEmailSender";
+import { Views } from "../views/lib/Views";
+import getDictionary from "../views/lib/get-dictionary";
+import { Locale } from "../views/lib/locale-views";
 
 class EmailSender {
 	private transporter: Transporter;
@@ -22,20 +26,24 @@ class EmailSender {
 		});
 	}
 
-	public async sendMsg<T>(to: string[], subject: string, htmlURL: string, dataReplace: T) {
+	public async sendMsg<T, K>(to: string | string[], subject: Subject, template: Views, dataReplace: T, language: Locale) {
 		try {
-			const templatePath = path.join(__dirname, htmlURL);
+			const templatePath = path.join(__dirname, `../views-templates/${template}/template.html`);
+			
+			const templateFile = await fs.readFile(templatePath, 'utf-8');
 
-			const template = await fs.readFile(templatePath, 'utf-8');
+			console.log(templateFile)
 
-			const compiledTemplate = Handlebars.compile(template);
+			const compiledTemplate = Handlebars.compile(templateFile);
 
-			const htmlContent = compiledTemplate(dataReplace);
+			const bodyMsg = await getDictionary<K>(template, language);
+
+			const htmlContent = compiledTemplate({...bodyMsg, ...dataReplace, lang: language});
 			
 			await this.transporter.sendMail({
 				from: `Eastal+ Corporation <${this.emailFrom}>`,
 				to,
-				subject: subject || "Autênticação de usuário",
+				subject: subject,
 				html: htmlContent,
 				text: "Eastal+ Corporation",
 			});

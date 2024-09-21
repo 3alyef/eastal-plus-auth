@@ -6,7 +6,6 @@ const userAboutSchema = new Schema<IUser>({
 	firstName: { type: String, required: true},
 	lastName: { type: String, required: true},
 	dateOfBirth: {type: Date, required: false},
-	language: { type: String, required: true, default: "en" }
 }, {
 	timestamps: {
 		createdAt: false,

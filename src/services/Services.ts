@@ -11,5 +11,6 @@ import tokenGenerator from "./tokenGenerator/tokenGenerator.service";
 import tokenValidator from "./tokenValidator/tokenValidator.service";
 import ForgotPassword from "./ForgotPassword/ForgotPassword.service";
 import getUserIdData from "./getUserIdData/getUserIdData.service";
+import GenerateRandomCode from "./GenerateRandomCode/GenerateRandomCode.service";
 
-export { getAccountData, verifyPassword, certifyUserId, CheckEmail, RegisterUser, GetUserIdByEmail, UnregisterUser, LoginUser, validatePassword, tokenGenerator, tokenValidator, ForgotPassword, getUserIdData };
+export { getAccountData, verifyPassword, certifyUserId, CheckEmail, RegisterUser, GetUserIdByEmail, UnregisterUser, LoginUser, validatePassword, tokenGenerator, tokenValidator, ForgotPassword, getUserIdData, GenerateRandomCode };

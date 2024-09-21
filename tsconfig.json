@@ -8,6 +8,6 @@
 		"esModuleInterop": true,
   },
   "exclude": [
-    "jest.config.ts"
+    "jest.config.ts",
   ]
 }

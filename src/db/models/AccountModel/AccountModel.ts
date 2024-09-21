@@ -7,6 +7,7 @@ const AccountScheme = new Schema<IAccount>({
 	password: { type: String, required: true},
 	accountType: { type: String, required: true},
 	recoveryEmail: { type: String, required: false},
+	language: { type: String, required: true, default: "en" }
 }, { 
   timestamps: true,
 });
