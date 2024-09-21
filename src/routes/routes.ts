@@ -29,7 +29,10 @@ router.post("/auth/unregister", (req, res) => {
 
 router.post("/auth/forgot-password", (req, res) => {
 	new controll.ForgotPasswordController(req, res);
-})
+});
+
+router.post("/auth/forgot-password/validate-code", (req, res) => {
+});
 
 export { router };
 /*
