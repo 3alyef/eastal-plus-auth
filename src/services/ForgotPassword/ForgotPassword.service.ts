@@ -37,19 +37,14 @@ export default class ForgotPassword {
 				}, language);
 
 				return {
-					message: `{
-					userId: ${userId},
-					language: ${language},
-					code: ${code},
-					validate: ${validate}
-					}`,
+					message: `Email enviado`,
 					status: StatusCode.OK
 				}
 			} else {
 				throw {
 					message: "Email incompleto ou faltando.",
 					status: StatusCode.BAD_REQUEST,
-				}
+				};
 			}
 		} catch(err) {
 			const error = err as IStatusMsg;

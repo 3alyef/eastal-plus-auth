@@ -32,6 +32,7 @@ router.post("/auth/forgot-password", (req, res) => {
 });
 
 router.post("/auth/forgot-password/validate-code", (req, res) => {
+	new controll.ValidateCodeController(req, res);
 });
 
 export { router };
