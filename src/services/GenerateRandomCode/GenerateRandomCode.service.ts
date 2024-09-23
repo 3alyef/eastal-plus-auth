@@ -1,8 +1,7 @@
 export default class GenerateRandomCode {
-	public init(length: number, hours: number): { code: string, validate: Date }{
+	public init(length: number): { code: string }{
 		const code = this.generateRandomCode(length);
-		const validate = this.getExpirationDate(hours);
-		return { code, validate };
+		return { code };
 	}
 
 	private generateRandomCode(length: number): string {
@@ -16,9 +15,4 @@ export default class GenerateRandomCode {
 		return code;
 	}
 
-	private getExpirationDate(hours: number): Date {
-		const now = new Date();
-		now.setHours(now.getHours() + hours);
-		return now;
-	}
 }

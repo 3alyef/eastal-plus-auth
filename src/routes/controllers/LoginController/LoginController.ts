@@ -17,9 +17,13 @@ export default class LoginController extends DefaultController {
 		let response = await this.login.init(reqBody);
 		if("status" in response) {
 			const { status, message } = response;
-			this.res.status(status).send(message).end();
+			this.res.status(status).json({
+				message,
+			}).end();
 		} else {
-			this.res.status(StatusCode.ACCEPTED).json(response).end();
+			this.res.status(StatusCode.ACCEPTED).json({
+				response,
+			}).end();
 		}
    
 	}

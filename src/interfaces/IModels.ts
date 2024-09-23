@@ -22,3 +22,9 @@ export interface IUserAbout {
 	dateOfBirth: Date;
 	updatedAt: Date;
 }
+
+export interface IConfirmationCode {
+	email: string;
+	code: string;
+	createdAt: Date;
+}

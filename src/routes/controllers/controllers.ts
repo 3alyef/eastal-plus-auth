@@ -6,4 +6,5 @@ import UnregisterController from "./UnregisterController/UnregisterController";
 import ForgotPasswordController from "./ForgotPasswordController/ForgotPasswordController";
 import HomeController from "./HomeController/HomeController";
 import ValidateCodeController from "./ValidateCodeController/ValidateCodeController";
-export { HomeController, RegisterController, LoginController, CheckEmailController, UserIdByEmailController, UnregisterController, ForgotPasswordController, ValidateCodeController };
+import ResetPasswordController from "./ResetPasswordController/ResetPasswordController";
+export { HomeController, RegisterController, LoginController, CheckEmailController, UserIdByEmailController, UnregisterController, ForgotPasswordController, ValidateCodeController, ResetPasswordController };

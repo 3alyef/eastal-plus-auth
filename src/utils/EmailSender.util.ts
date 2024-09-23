@@ -32,7 +32,7 @@ class EmailSender {
 			
 			const templateFile = await fs.readFile(templatePath, 'utf-8');
 
-			console.log(templateFile)
+			// console.log(templateFile);
 
 			const compiledTemplate = Handlebars.compile(templateFile);
 

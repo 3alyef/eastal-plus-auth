@@ -14,6 +14,8 @@ export default class UnregisterController extends DefaultController {
 		
 		const { status, message } = await this.unregisterService.init(this.req);
 
-		this.res.status(status).send(message).end();
+		this.res.status(status).json({
+			message,
+		}).end();
 	}
 }

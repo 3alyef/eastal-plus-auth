@@ -35,6 +35,10 @@ router.post("/auth/forgot-password/validate-code", (req, res) => {
 	new controll.ValidateCodeController(req, res);
 });
 
+router.patch("/auth/reset-password", (req, res) => {
+	new controll.ResetPasswordController(req, res);
+})
+
 export { router };
 /*
 import verifyAccount from "../middlewares/verifyAccountMiddleware";

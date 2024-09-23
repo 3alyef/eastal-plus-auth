@@ -12,8 +12,17 @@ export default class ForgotPasswordController extends DefaultController {
 	private async start() {
 		const { email } = this.req.body;
 
-		const { message, status } = await this.forgotPassword.init(email);
+		const response = await this.forgotPassword.init(email);
 
-		this.res.status(status).send(message).end();
+		if("expiresAt" in response) {
+			const { status, message, expiresAt } = response;
+			this.res.status(status).json({
+				message, 
+				expiresAt
+			}).end();
+		} else {
+			const { status, message } = response;
+			this.res.status(status).json({ message }).end();
+		}
 	}
 }

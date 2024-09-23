@@ -16,9 +16,13 @@ export default class CheckEmailController extends DefaultController {
 		
 		if("status" in userData){
 			const { status, message } = userData;
-			this.res.status(status).send(message).end();
+			this.res.status(status).json({
+				message,
+			}).end();
 		} else {
-			this.res.status(StatusCode.OK).json(userData).end();
+			this.res.status(StatusCode.OK).json({
+				userData,
+			}).end();
 		}
 	}
 }

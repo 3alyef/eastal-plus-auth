@@ -1,7 +1,7 @@
 import { Schema, model, Model} from "mongoose";
-import { IUser } from "../../../interfaces/IModels";
+import { IUserAbout } from "../../../interfaces/IModels";
 
-const userAboutSchema = new Schema<IUser>({
+const userAboutSchema = new Schema<IUserAbout>({
   userId: { type: String, required: true },
 	firstName: { type: String, required: true},
 	lastName: { type: String, required: true},
@@ -13,6 +13,6 @@ const userAboutSchema = new Schema<IUser>({
 	}
 });
 
-const UserAboutModel: Model<IUser> = model<IUser>("UserAbout", userAboutSchema);
+const UserAboutModel: Model<IUserAbout> = model<IUserAbout>("UserAbout", userAboutSchema);
 
 export default UserAboutModel;

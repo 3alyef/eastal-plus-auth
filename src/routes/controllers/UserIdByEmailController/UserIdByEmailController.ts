@@ -17,10 +17,14 @@ export default class UserIdByEmailController extends DefaultController {
     const email = (this.req.query.email as string) || undefined;
     const userData: GetUserId | IStatusMsg = await this.getUserIdByEmail.init(email);
     if ("userId" in userData) {
-      this.res.status(StatusCode.OK).json(userData).end();
+      this.res.status(StatusCode.OK).json({
+				userData,
+			}).end();
     } else {
       const { status, message } = userData;
-      this.res.status(status).send(message).end();
+      this.res.status(status).json({
+				message,
+			}).end();
     }
   }
 }

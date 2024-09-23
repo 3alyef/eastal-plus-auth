@@ -17,7 +17,9 @@ class RegisterController extends DefaultController {
 
     let { status, message } = await this.register.init(reqBody);
 
-    this.res.status(status).send(message).end();
+    this.res.status(status).json({
+			message,
+		}).end();
   }
 }
 

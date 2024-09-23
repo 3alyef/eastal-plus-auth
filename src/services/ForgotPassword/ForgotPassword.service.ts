@@ -2,42 +2,51 @@ import { Subject } from "../../interfaces/IEmailSender";
 import { StatusCode } from "../../interfaces/IStatusCode";
 import { IStatusMsg } from "../../interfaces/IStatusMsg";
 import emailSender from "../../utils/EmailSender.util";
-import globalsVar from "../../utils/Global";
 import { IEmailRecovery, IEmailRecoveryCode } from "../../views/dictionaries-interface/IDictionaries";
-import getDictionary from "../../views/lib/get-dictionary";
 import { Locale } from "../../views/lib/locale-views";
 import { Views } from "../../views/lib/Views";
-import { GenerateRandomCode, getAccountData } from "../Services";
+import { ConfirmationCode, GenerateRandomCode, getAccountData } from "../Services";
+import { IForgotPasswordRes } from "./IForgotPassword";
 
 export default class ForgotPassword {
 	private generateRandomCode: GenerateRandomCode;
+	private confirmationCode: ConfirmationCode;
 	constructor() {
 		this.generateRandomCode = new GenerateRandomCode();
+		this.confirmationCode = new ConfirmationCode();
 	}
-	public async init(email: string | undefined): Promise<IStatusMsg> {
+	public async init(email: string | undefined): Promise<IStatusMsg | IForgotPasswordRes> {
 		try {
 			if(email && email.includes("@")) {
 				const response = await getAccountData<{
-					userId: string;
 					language: Locale
-				}>(email, "userId language");
+				}>(email, "language");
 
 				if("status" in response) {
 					throw response;
 				}
 
-				const { userId, language } = response;
+				const { language } = response;
 
-				const { code, validate } = this.generateRandomCode.init(6, 2);
+				const { code } = this.generateRandomCode.init(6);
 
-				globalsVar.addCodeValidate(userId, code, validate);
+				const create = await this.confirmationCode.createConfirmationCode(email, code);
+
+				const expiresTimeCode = await this.confirmationCode.getExpiresTime(email, code);
+
+				if(create.status !== StatusCode.CREATED) {
+					throw create;
+				} else if("status" in expiresTimeCode) {
+					throw expiresTimeCode;
+				}
 
 				await emailSender.sendMsg<IEmailRecoveryCode, IEmailRecovery>(email, Subject.AccountRecovery, Views.EmailRecovery, {
-					code
+					code,
 				}, language);
 
 				return {
-					message: `Email enviado`,
+					message: `Email enviado.`,
+					expiresAt: expiresTimeCode,
 					status: StatusCode.OK
 				}
 			} else {
