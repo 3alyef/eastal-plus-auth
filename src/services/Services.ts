@@ -7,7 +7,7 @@ import UnregisterUser from "./UnregisterUser/UnregisterUser.service";
 import verifyPassword from "./verifyPassword/verifyPassword.service";
 import LoginUser from "./LoginUser/LoginUser.service";
 import validatePassword from "./validatePassword/validatePassword.service";
-import tokenGenerator from "./tokenGenerator/tokenGenerator.service";
+import TokenGenerator from "./TokenGenerator/TokenGenerator.service";
 import tokenValidator from "./tokenValidator/tokenValidator.service";
 import ForgotPassword from "./ForgotPassword/ForgotPassword.service";
 import getUserIdData from "./getUserIdData/getUserIdData.service";
@@ -16,4 +16,4 @@ import ConfirmationCode from "./ConfirmationCode/ConfirmationCode.service";
 import ValidateCode from "./ValidateCode/ValidateCode.service";
 import ResetPassword from "./ResetPassword/ResetPassword.service";
 
-export { getAccountData, verifyPassword, certifyUserId, CheckEmail, RegisterUser, GetUserIdByEmail, UnregisterUser, LoginUser, validatePassword, tokenGenerator, tokenValidator, ForgotPassword, getUserIdData, GenerateRandomCode, ConfirmationCode, ValidateCode, ResetPassword };
+export { getAccountData, verifyPassword, certifyUserId, CheckEmail, RegisterUser, GetUserIdByEmail, UnregisterUser, LoginUser, validatePassword, TokenGenerator, tokenValidator, ForgotPassword, getUserIdData, GenerateRandomCode, ConfirmationCode, ValidateCode, ResetPassword };

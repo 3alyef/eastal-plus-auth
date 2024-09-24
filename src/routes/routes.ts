@@ -4,40 +4,40 @@ import * as controll from "./controllers/controllers";
 const router: Router = Router();
 
 router.get("/", async (req: Request, res: Response) => {
-	new controll.HomeController(req, res);
+  new controll.HomeController(req, res);
 }); // OK
 
 router.post("/auth/register", (req, res) => {
-	new controll.RegisterController(req, res);
+  new controll.RegisterController(req, res);
 }); // OK
 
 router.post("/auth/login", (req, res) => {
-	new controll.LoginController(req, res);
-});
+  new controll.LoginController(req, res);
+}); // OK
 
 router.get("/auth/check-email", (req, res) => {
-	new controll.CheckEmailController(req, res);
-}) // OK
+  new controll.CheckEmailController(req, res);
+}); // OK
 
 router.get("/auth/userid-by-email", (req, res) => {
-	new controll.UserIdByEmailController(req, res);
+  new controll.UserIdByEmailController(req, res);
 }); // OK
 
 router.post("/auth/unregister", (req, res) => {
-	new controll.UnregisterController(req, res);
-});
+  new controll.UnregisterController(req, res);
+}); // OK
 
 router.post("/auth/forgot-password", (req, res) => {
-	new controll.ForgotPasswordController(req, res);
-});
+  new controll.ForgotPasswordController(req, res);
+}); // OK
 
 router.post("/auth/forgot-password/validate-code", (req, res) => {
-	new controll.ValidateCodeController(req, res);
-});
+  new controll.ValidateCodeController(req, res);
+}); // OK
 
 router.patch("/auth/reset-password", (req, res) => {
-	new controll.ResetPasswordController(req, res);
-})
+  new controll.ResetPasswordController(req, res);
+}); // OK
 
 export { router };
 /*

@@ -9,7 +9,7 @@ const userAboutSchema = new Schema<IUserAbout>({
 }, {
 	timestamps: {
 		createdAt: false,
-		updatedAt: "updatedAt"
+		updatedAt: true
 	}
 });
 

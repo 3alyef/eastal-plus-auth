@@ -1,8 +1,10 @@
 import { Locale } from "../views/lib/locale-views";
 
+export type accountType = "normal" | "pro";
+
 export interface CheckEmailRes {
 	email: string;
-	accountType: "normal" | "pro";
+	accountType: accountType;
 	createdAt: Date;
 	updatedAt: Date;
 }

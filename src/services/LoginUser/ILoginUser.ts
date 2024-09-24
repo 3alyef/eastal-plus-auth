@@ -1,9 +1,20 @@
-export interface IAccountDataRes {
+import { accountType } from '../../interfaces/IModels';
+import { deviceType } from '../../routes/controllers/LoginController/ILoginController';
+
+export interface AccessToken {
 	userId: string;
-	accountType: string;
-	email?: string;
+	accountType: accountType;
 }
 
-export interface IAccountLogin extends IAccountDataRes{
+export interface IAccountLogin extends AccessToken {
 	password: string;
+}
+
+export interface RefreshToken extends AccessToken {
+	deviceType: deviceType;
+}
+
+export interface ILoginResponse { 
+	accessToken: string; 
+	refreshToken: string
 }

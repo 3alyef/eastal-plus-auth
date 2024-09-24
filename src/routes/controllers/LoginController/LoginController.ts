@@ -21,9 +21,9 @@ export default class LoginController extends DefaultController {
 				message,
 			}).end();
 		} else {
-			this.res.status(StatusCode.ACCEPTED).json({
-				response,
-			}).end();
+			this.res.status(StatusCode.ACCEPTED).json(
+				response
+			).end();
 		}
    
 	}
