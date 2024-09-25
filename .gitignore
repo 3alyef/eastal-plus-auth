@@ -1,3 +1,6 @@
+graphql/schema.gql
+
+
 # compiled output
 /dist
 /node_modules

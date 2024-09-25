@@ -1,6 +1,6 @@
-import { StatusCode } from "./IStatusCode";
+import { StatusCode } from './IStatusCode';
 
 export interface IStatusMsg {
-	message: string,
-	status: StatusCode
+  message: string;
+  status: StatusCode;
 }

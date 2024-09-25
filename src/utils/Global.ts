@@ -11,7 +11,6 @@ class Global {
   public setUserIds(updater: (prev: string[]) => string[]) {
     this.userIds = updater(this.userIds);
   }
-
 }
 
 const globalsVar = new Global();
