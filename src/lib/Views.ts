@@ -1,3 +1,3 @@
 export enum Views {
-	EmailRecovery = "email-recovery"
+  EmailRecovery = 'email-recovery',
 }

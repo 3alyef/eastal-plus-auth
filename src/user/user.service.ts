@@ -4,11 +4,11 @@ import { Args } from '@nestjs/graphql';
 import { CreateUserInput } from './dto/create-user.input';
 
 @Injectable()
-export class UsersService {
-  private usersService: UsersService;
+export class UserService {
+  private userService: UserService;
 
   constructor() {
-    this.usersService = new UsersService();
+    this.userService = new UserService();
   }
 
   async create(@Args('data') data: CreateUserInput) {
