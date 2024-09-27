@@ -1,7 +1,7 @@
-import { ObjectType, Field, Int } from '@nestjs/graphql';
+import { IsUUID } from 'class-validator';
+import { CreateUserDto } from '../dto/create-user.dto';
 
-@ObjectType()
-export class User {
-  @Field(() => Int, { description: 'Example field (placeholder)' })
-  exampleField: number;
+export class User extends CreateUserDto {
+  @IsUUID('4', { message: 'Invalid ID format' }) // Usando UUID v4
+  id: string;
 }

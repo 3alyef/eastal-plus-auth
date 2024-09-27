@@ -13,6 +13,7 @@ async function bootstrap() {
 
   app.enableCors({
     origin: ALLOW_ORIGIN,
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true, // cookies ou sessões
   });
 

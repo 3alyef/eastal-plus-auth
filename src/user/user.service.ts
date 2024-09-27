@@ -1,31 +1,23 @@
 import { Injectable } from '@nestjs/common';
-import { UpdateUserInput } from './dto/update-user.input';
-import { Args } from '@nestjs/graphql';
-import { CreateUserInput } from './dto/create-user.input';
+import { CreateUserDto } from './dto/create-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @Injectable()
 export class UserService {
-  private userService: UserService;
-
-  constructor() {
-    this.userService = new UserService();
-  }
-
-  async create(@Args('data') data: CreateUserInput) {
-    const { email, firstName, lastName, password, repeatPassword, language } =
-      data;
+  create(createUserDto: CreateUserDto) {
+		
     return 'This action adds a new user';
   }
 
   findAll() {
-    return `This action returns all users`;
+    return `This action returns all user`;
   }
 
   findOne(id: number) {
     return `This action returns a #${id} user`;
   }
 
-  update(id: number, updateUserInput: UpdateUserInput) {
+  update(id: number, updateUserDto: UpdateUserDto) {
     return `This action updates a #${id} user`;
   }
 
