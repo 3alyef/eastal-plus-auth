@@ -1,5 +1,5 @@
 import { IsEmail, IsNotEmpty, MinLength } from 'class-validator';
-import { PasswordMatches } from 'src/user/decorators/match.decorator';
+import { PasswordMatches } from 'src/user/decorators/PasswordMatches.decorator';
 /*import { locale, Locale } from 'src/lib/locale-views';
 language?: Locale = locale.defaultLocale;*/
 

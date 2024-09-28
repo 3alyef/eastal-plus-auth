@@ -1,26 +1,34 @@
 import { Injectable } from '@nestjs/common';
 import { CreateAccountDto } from './dto/create-account.dto';
-import { UpdateAccountDto } from './dto/update-account.dto';
+import { InjectModel } from '@nestjs/mongoose';
+import { Account } from './schemas/account.schema';
+import { Model } from 'mongoose';
+import { CreateUserNameService } from './services/createUserName.service';
 
 @Injectable()
 export class AccountService {
-  create(createAccountDto: CreateAccountDto) {
-    return 'This action adds a new account';
-  }
+  constructor(
+    @InjectModel(Account.name) private readonly accountModel: Model<Account>,
+    private readonly createUserNameService: CreateUserNameService,
+  ) {}
 
-  findAll() {
-    return `This action returns all account`;
-  }
+  async create({
+    user_id,
+    provider,
+    provider_id,
+    session,
+    name,
+  }: CreateAccountDto): Promise<Account> {
+    const user_name = await this.createUserNameService.createUserName(name);
 
-  findOne(id: number) {
-    return `This action returns a #${id} account`;
-  }
+    const newAccount = new this.accountModel({
+      user_id,
+      provider,
+      provider_id,
+      name,
+      user_name,
+    });
 
-  update(id: number, updateAccountDto: UpdateAccountDto) {
-    return `This action updates a #${id} account`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} account`;
+    return newAccount.save({ session });
   }
 }

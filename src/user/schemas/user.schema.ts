@@ -1,6 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
-import { userStatus } from '../enum/userStatus.enum';
+import { userStatus } from '../types/userStatus.enum';
+import { Gender } from '../types/user.enum';
 
 @Schema({ timestamps: true })
 export class User extends Document {
@@ -29,8 +30,11 @@ export class User extends Document {
   })
   status: userStatus;
 
-  @Prop({ type: String, required: true })
-  account_id: string;
+  @Prop({ type: [String], required: true })
+  account_id: string[];
+
+  @Prop({ type: String, enum: Object.values(Gender) })
+  gender: Gender;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
