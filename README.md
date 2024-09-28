@@ -48,7 +48,8 @@ Esta collection armazena informações sobre os usuários, como seu email, nome,
 		"provider_id": "provider-specific-id",  // ID do provedor externo (se usar OAuth)
 		"user_id": ObjectId("..."),  // Referência a collection Users
 		"created_at": ISODate("2024-09-24T12:00:00Z"),  // Data de criação
-		"is_verified": true  // Status de verificação de email
+		"is_verified": true  // Status de verificação de email,
+		"default_language": Locale;
 	},
 ]
 

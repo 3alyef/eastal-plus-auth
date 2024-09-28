@@ -1,5 +1,5 @@
 import { Schema, model, Model } from "mongoose";
-import { IAccount } from "../../../rewrite/interfaces/IModelss
+import { IAccount } from "../../../rewrite/interfaces/IModels
 
 const AccountScheme = new Schema<IAccount>({
   userId: { type: String, required: true },
