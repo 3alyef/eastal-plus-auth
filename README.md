@@ -18,6 +18,8 @@ Esta collection armazena informações sobre os usuários, como seu email, nome,
 [
 	{
 		"_id": ObjectId("..."),  
+		"provider": "local",  // Provedor de autenticação (ex: 'local', 'google', 'facebook')
+		"provider_id": "provider-specific-id",  // ID do provedor externo (se usar OAuth)
 		"email": "user@example.com", 
 		"password_hash": "",  // Hash da senha (bcrypt, argon2, etc.)
 		"first_name": "User Name", 
@@ -27,7 +29,8 @@ Esta collection armazena informações sobre os usuários, como seu email, nome,
 		"roles": ["user"],  // Papel do usuário no sistema (ex: 'admin', 'user')
 		"status": "active",  // ('active' | 'inactive' | 'banned')
 		"account_id": [ObjectId("...")], // referencia a collection Accounts
-		"gender": '' // male | female
+		"gender": '', // male | female
+		"is_verified": true  // Status de verificação de email,
 	},
 ]
 ```
@@ -45,11 +48,8 @@ Esta collection armazena informações sobre os usuários, como seu email, nome,
 [
 	{
 		"_id": ObjectId("..."),  // ID da conta
-		"provider": "local",  // Provedor de autenticação (ex: 'local', 'google', 'facebook')
-		"provider_id": "provider-specific-id",  // ID do provedor externo (se usar OAuth)
 		"user_id": ObjectId("..."),  // Referência a collection Users
 		"created_at": ISODate("2024-09-24T12:00:00Z"),  // Data de criação
-		"is_verified": true  // Status de verificação de email,
 		"default_language": Locale;
 		"user_name": 'nome de utilizador unico';
 		"name": 'no de utilizador costum',

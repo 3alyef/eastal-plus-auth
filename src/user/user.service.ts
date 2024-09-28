@@ -5,16 +5,19 @@ import { User } from './schemas/user.schema';
 import { Model } from 'mongoose';
 import RegisterUserService from './services/register-user.service';
 import { UserByEmail } from './types/user.response';
+import { Provider } from './types/user.enum';
+import EncryptService from 'src/services/encrypt.service';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectModel(User.name) private readonly userModel: Model<User>,
     private readonly registerUserService: RegisterUserService,
+    private readonly encryptService: EncryptService,
   ) {}
 
   async create(createUserDto: CreateUserDto) {
-    const { email } = createUserDto;
+    const { email, provider, password } = createUserDto;
 
     const emailAlreadyExists = await this.findByEmail(email);
 
@@ -23,6 +26,14 @@ export class UserService {
         'Email already registered',
         HttpStatus.BAD_REQUEST,
       );
+    }
+
+    if (provider === Provider.LOCAL && password) {
+      const passHashed = await this.encryptService.hashData(password);
+
+      return await this.registerUserService.createUserAccount({
+        createUserDto: { ...createUserDto, password: passHashed },
+      });
     }
 
     return await this.registerUserService.createUserAccount({ createUserDto });

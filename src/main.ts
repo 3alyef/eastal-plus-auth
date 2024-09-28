@@ -1,14 +1,10 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { authenticate } from './db/DB';
 
 async function bootstrap() {
   const ALLOW_ORIGIN = process.env.ALLOW_ORIGIN || '';
 
   const PORT = Number(process.env.PORT) || 4000;
-
-  authenticate(); // database
-
   const app = await NestFactory.create(AppModule);
 
   app.enableCors({
@@ -18,5 +14,6 @@ async function bootstrap() {
   });
 
   await app.listen(PORT);
+  console.log(`Application is running on: ${await app.getUrl()}`);
 }
 bootstrap();

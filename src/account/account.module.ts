@@ -11,5 +11,6 @@ import { CreateUserNameService } from './services/createUserName.service';
   ],
   controllers: [AccountController],
   providers: [AccountService, CreateUserNameService],
+  exports: [AccountService],
 })
 export class AccountModule {}

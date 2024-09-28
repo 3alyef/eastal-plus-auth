@@ -12,23 +12,15 @@ export class AccountService {
     private readonly createUserNameService: CreateUserNameService,
   ) {}
 
-  async create({
-    user_id,
-    provider,
-    provider_id,
-    session,
-    name,
-  }: CreateAccountDto): Promise<Account> {
+  async create({ user_id, name }: CreateAccountDto): Promise<Account> {
     const user_name = await this.createUserNameService.createUserName(name);
 
     const newAccount = new this.accountModel({
       user_id,
-      provider,
-      provider_id,
       name,
       user_name,
     });
 
-    return newAccount.save({ session });
+    return newAccount.save();
   }
 }

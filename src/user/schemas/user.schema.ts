@@ -5,10 +5,21 @@ import { Gender } from '../types/user.enum';
 
 @Schema({ timestamps: true })
 export class User extends Document {
+  @Prop({ type: String, required: true })
+  provider: string;
+
+  @Prop({
+    type: String,
+    default: function () {
+      return this._id.toString();
+    },
+  })
+  provider_id: string;
+
   @Prop({ type: String, required: true, unique: true })
   email: string;
 
-  @Prop({ type: String, required: true })
+  @Prop({ type: String })
   password: string;
 
   @Prop({ type: String, required: true })
@@ -30,11 +41,14 @@ export class User extends Document {
   })
   status: userStatus;
 
-  @Prop({ type: [String], required: true })
+  @Prop({ type: [String] })
   account_id: string[];
 
-  @Prop({ type: String, enum: Object.values(Gender) })
+  @Prop({ type: String, enum: Object.values(Gender), default: 'undefined' })
   gender: Gender;
+
+  @Prop({ type: Boolean, default: false })
+  is_verified: boolean;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
